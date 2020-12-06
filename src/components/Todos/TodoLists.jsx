@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { 
-    Grid, 
+    Grid, makeStyles, Typography, 
 } from '@material-ui/core';
 import TodoListItem from './TodoListItem'
 
-export default function TodoLists() {
-  const [ todoLists, setTodoLists ] = useState([])
+const useStyles = makeStyles(theme => ({
+  typoNoLists: {
+      margin: theme.spacing(4),
+      color: "#989898"
+  }
+}))
 
-  useEffect(() => {
-    setTodoLists(['List 1', 'List 2', 'List 3'])
-  }, [])
+export default function TodoLists({ lists }) {
+  const classes = useStyles();
 
   return (
     <Grid 
@@ -17,11 +20,15 @@ export default function TodoLists() {
         justify="center"
         alignItems="center"
     >
-        {todoLists.map((value, index) => {
+        { lists.length > 0 ? lists.map(value => {
             return (
-                <TodoListItem key={index} value={value}/>  
+                <TodoListItem id={value.id} value={value.name}/>  
             )
-        })}
+        }) :
+        <Typography variant="h6" color="textSecondary" className={classes.typoNoLists}>
+          No lists yet. Create new!
+        </Typography>}
+        
     </Grid>
   );
 }

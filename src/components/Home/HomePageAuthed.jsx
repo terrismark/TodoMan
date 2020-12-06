@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { 
     Button, 
@@ -15,6 +15,9 @@ import {
     ThemeProvider, 
     Typography 
 } from '@material-ui/core';
+
+import { useSelector, useDispatch } from 'react-redux'
+import { addList } from '../../actions/listsActions';
 
 import NavBar from './NavBar'
 import Footer from './Footer'
@@ -62,8 +65,35 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-export default function HomePage() {
+export default function HomePageAuthed() {
     const classes = useStyles();
+    const lists = useSelector(state => state.lists)
+
+    const dispatch = useDispatch()
+    const [ newItemToAdd, setNewItem ] = useState("") 
+
+    function handleAddList(e) {
+        e.preventDefault()
+
+        function checkIfItemIsIn(item, list) {
+            for (let i = 0; i < list.length; i++) {
+                if (list[i].name === item) {
+                    return true
+                }
+            }
+            return false
+        }
+
+        if (checkIfItemIsIn(newItemToAdd, lists)) {
+            alert("You already have a list with the same name. Try another variant!")
+            return
+        }
+
+        if (newItemToAdd.length > 0) {
+            dispatch(addList(newItemToAdd))
+        }
+        setNewItem("")
+    }
 
     return (
         <ThemeProvider theme={darkTheme}>
@@ -86,7 +116,7 @@ export default function HomePage() {
                             Your Todo lists
                         </Typography>
 
-                        <TodoLists />
+                        <TodoLists lists={lists}/>
                         <Divider />
 
                         <Grid container alignContent="center" direction="column">
@@ -98,16 +128,23 @@ export default function HomePage() {
 
                             <Grid item align="center" alignContent="center" direction="row" className={classes.createNew}>
                                 <List className={classes.listItem}>
-                                    <ListItem dense>
-                                        <ListItemText className={classes.listInput}>
-                                            <TextField variant="outlined" label="New List"/>
-                                        </ListItemText>
-                                        <ListItemSecondaryAction>
-                                            <Button size="large" color="primary">
-                                                <AddBox fontSize="large"/>
-                                            </Button>
-                                        </ListItemSecondaryAction>
-                                    </ListItem>
+                                    <form onSubmit={handleAddList}>
+                                        <ListItem dense>
+                                            <ListItemText className={classes.listInput}>
+                                                <TextField 
+                                                    variant="outlined"
+                                                    value={newItemToAdd}
+                                                    onChange={(e) => setNewItem(e.target.value)} 
+                                                    label="New List"
+                                                />
+                                            </ListItemText>
+                                            <ListItemSecondaryAction>
+                                                <Button type="submit" size="large" color="primary" disabled={newItemToAdd.length === 0}>
+                                                    <AddBox fontSize="large"/>
+                                                </Button>
+                                            </ListItemSecondaryAction>
+                                        </ListItem>
+                                    </form>
                                 </List>
                             </Grid>
                         </Grid>

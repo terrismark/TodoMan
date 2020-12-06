@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { AddBox } from '@material-ui/icons'
 import { createMuiTheme } from '@material-ui/core/styles';
 import { 
@@ -15,6 +15,9 @@ import {
     ThemeProvider, 
     Typography 
 } from '@material-ui/core';
+
+import { useSelector, useDispatch } from 'react-redux'
+import { addTodo } from '../../actions/todosActions';
 
 import NavBar from './NavBar'
 import { amber } from '@material-ui/core/colors';
@@ -46,8 +49,36 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-export default function HomePage() {
+export default function TodoPage() {
     const classes = useStyles();
+
+    const todos = useSelector(state => state.todos)
+
+    const dispatch = useDispatch()
+    const [ newItemToAdd, setNewItem ] = useState("") 
+
+    function handleAddTodo(e) {
+        e.preventDefault()
+
+        function checkIfItemIsIn(item, list) {
+            for (let i = 0; i < list.length; i++) {
+                if (list[i].name === item) {
+                    return true
+                }
+            }
+            return false
+        }
+
+        if (checkIfItemIsIn(newItemToAdd, todos)) {
+            alert("You already have the same task. Try another variant!")
+            return
+        }
+
+        if (newItemToAdd.length > 0) {
+            dispatch(addTodo(newItemToAdd))
+        }
+        setNewItem("")
+    }
 
     return (
         <ThemeProvider theme={darkTheme}>
@@ -65,21 +96,30 @@ export default function HomePage() {
                             <Typography variant="h6" className={classes.title}>
                                 Todos
                             </Typography>
-                            <Todos />
+                            <Todos todos={todos}/>
                         </Grid>
 
                         <Grid item className={classes.gridItem}>
                             <List className={classes.listItem}>
-                                <ListItem dense>
-                                    <ListItemText className={classes.listInput}>
-                                        <TextField variant="outlined" label="New Todo"/>
-                                    </ListItemText>
-                                    <ListItemSecondaryAction>
-                                        <Button size="large" color="primary">
+                                <form onSubmit={handleAddTodo}>
+                                    <ListItem dense>
+                                        <ListItemText className={classes.listInput}> 
+                                            <TextField 
+                                                value={newItemToAdd} 
+                                                name="text" 
+                                                onChange={(e) => setNewItem(e.target.value)}
+                                                variant="outlined" 
+                                                label="New Todo"
+                                                autoComplete="false"
+                                            />
+                                        </ListItemText>
+                                        <ListItemSecondaryAction>
+                                            <Button type="submit" size="large" color="primary" disabled={newItemToAdd.length === 0}>
                                                 <AddBox fontSize="large"/>
                                             </Button>
-                                    </ListItemSecondaryAction>
-                                </ListItem>
+                                        </ListItemSecondaryAction>
+                                    </ListItem>
+                                </form>
                             </List>
                         </Grid>
                     </Grid>

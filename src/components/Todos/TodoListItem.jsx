@@ -9,6 +9,8 @@ import {
     Typography,
 } from '@material-ui/core';
 import { Delete } from '@material-ui/icons';
+import { useDispatch } from 'react-redux'
+import { deleteList } from '../../actions/listsActions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,11 +21,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function TodoListItem({ key, value }) {
+export default function TodoListItem({ id, value }) {
   const classes = useStyles();
+  const dispatch = useDispatch()
 
   return (
-        <List key={key} className={classes.root}>
+        <List key={id} className={classes.root}>
             <ListItem>
 
             <ListItemText className={classes.textItem}>
@@ -33,7 +36,7 @@ export default function TodoListItem({ key, value }) {
             </ListItemText>  
 
             <ListItemSecondaryAction edge="end">
-                <IconButton>
+                <IconButton onClick={() => dispatch(deleteList(id))}>
                     <Delete />
                 </IconButton>
             </ListItemSecondaryAction>
