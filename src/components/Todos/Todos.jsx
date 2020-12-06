@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { 
-  List,
+  List, ListItem, ListItemText,
 } from '@material-ui/core';
 import TodoItem from './TodoItem'
 
@@ -35,9 +35,9 @@ export default function Todos() {
             )
         })}
 
-        {/* <ListItem>
+        <ListItem>
           <ListItemText primary="No tasks yet. Create new!" className={classes.textItem}/>
-        </ListItem> */}
+        </ListItem>
 
       </List>
   );

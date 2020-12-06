@@ -8,6 +8,7 @@ import {
   Checkbox, 
   IconButton, 
   ListItem,
+  Typography,
 } from '@material-ui/core';
 
 const useStyles = makeStyles({
@@ -16,7 +17,7 @@ const useStyles = makeStyles({
     },
     textItem: {
         minWidth: 80,
-        maxWidth: 160,
+        maxWidth: 140,
         marginRight: 80
     }
 })
@@ -34,7 +35,11 @@ export default function TodoItem({ key, value }) {
                 />
             </ListItemIcon>
 
-            <ListItemText primary={value} className={classes.textItem}/>
+            <ListItemText className={classes.textItem}>
+                <Typography>
+                    {value}
+                </Typography>
+            </ListItemText>
 
             <ListItemSecondaryAction>
                 <IconButton edge="end" className={classes.secondaryButton}>

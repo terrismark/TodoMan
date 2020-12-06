@@ -55,7 +55,7 @@ export default function HomePage() {
                         Sign up
                         </Typography>
 
-                        <form className={classes.form} validate>
+                        <form className={classes.form} noValidate>
                             <Grid container spacing={2}>
                                 <Grid item xs={12} sm={6}>
                                 <TextField

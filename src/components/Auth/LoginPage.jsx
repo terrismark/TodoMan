@@ -11,7 +11,6 @@ import {
     ThemeProvider, 
     Typography 
 } from '@material-ui/core';
-
 import { amber } from '@material-ui/core/colors';
 
 const darkTheme = createMuiTheme({
@@ -55,7 +54,7 @@ export default function HomePage() {
                         Sign in
                         </Typography>
 
-                        <form className={classes.form} validate>
+                        <form className={classes.form} noValidate>
                             <Grid container spacing={2}>
                                 <Grid item xs={12}>
                                 <TextField
@@ -91,7 +90,7 @@ export default function HomePage() {
                                         variant="contained"
                                         color="primary"
                                         className={classes.submit}
-                                        disabled={false}
+                                        disabled={true}
                                     >
                                         Sign In
                                     </Button>

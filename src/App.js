@@ -11,10 +11,10 @@ import RegisterPage from './components/Auth/RegisterPage'
 function App() {
   return (
     <>
-    <LoginPage />
-    <RegisterPage />
-    <HomePage /> 
-    <HomePageAuthed />
+    {/* <LoginPage /> */}
+    {/* <RegisterPage /> */}
+    {/* <HomePage />  */}
+    {/* <HomePageAuthed /> */}
     <TodoPage />
     </>
   )

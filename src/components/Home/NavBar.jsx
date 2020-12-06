@@ -29,7 +29,7 @@ export default function NavBar() {
 
   return (
       <div className={classes.root}>
-        <AppBar className={classes.navbar} elevation="0" color="default" position="sticky">
+        <AppBar className={classes.navbar} elevation={0} color="default" position="sticky">
           <Toolbar>
               <Typography variant="h5" className={classes.title}>
                   TodoMan
