@@ -1,6 +1,6 @@
 # TodoMan
 
-## A simple todo app
+A simple todo app
 
 ## This project was build with 
 
