@@ -22,7 +22,7 @@ export default function TodoLists({ lists }) {
     >
         { lists.length > 0 ? lists.map(value => {
             return (
-                <TodoListItem id={value.id} value={value.name}/>  
+                <TodoListItem key={value.id} id={value.id} value={value.name}/>  
             )
         }) :
         <Typography variant="h6" color="textSecondary" className={classes.typoNoLists}>

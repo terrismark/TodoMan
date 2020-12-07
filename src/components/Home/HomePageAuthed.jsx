@@ -126,9 +126,9 @@ export default function HomePageAuthed() {
                                 </Typography>
                             </Grid>
 
-                            <Grid item align="center" alignContent="center" direction="row" className={classes.createNew}>
+                            <Grid item align="center" className={classes.createNew}>
                                 <List className={classes.listItem}>
-                                    <form onSubmit={handleAddList}>
+                                    <form autoсomplete="off" onSubmit={handleAddList}>
                                         <ListItem dense>
                                             <ListItemText className={classes.listInput}>
                                                 <TextField 

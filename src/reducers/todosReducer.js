@@ -1,40 +1,60 @@
-import { ADD_TODO, COMPLETE_TODO, DELETE_TODO, UPDATE_TODO } from '../actions/types'
+import { GET_TODOS, ADD_TODO, COMPLETE_TODO, DELETE_TODO, UPDATE_TODO, LOADING_TODOS } from '../actions/types'
 
-const todos = [
-    { id: Math.random(), name: "item 1", done: false },
-    { id: Math.random(), name: "item 2", done: true },
-    { id: Math.random(), name: "item 3", done: true },
-    { id: Math.random(), name: "item 4", done: false }
-]
+const todos = {
+    items: [],
+    loadingTodos: false
+}
 
 export default function todoReducer(state = todos, action) {
-    let prev = [...state]
+    let prevTodos = [...state.items]
     switch (action.type) {
+        case GET_TODOS:
+            return ({
+                items: action.payload,
+                loadingTodos: false
+            })
         case ADD_TODO:
-            return ([
-                ...prev,
-                { id: Math.random(), name: action.payload, done: false }
-            ])
+            return ({
+                items: [
+                    action.payload,
+                    ...prevTodos
+                ], 
+                loadingTodos: false
+            })
+
         case DELETE_TODO:
-            return prev.filter(todo => todo.id !== action.payload)
+            return { 
+                items: prevTodos.filter(todo => todo._id !== action.payload),
+                loadingTodos: false
+            }
+
         case UPDATE_TODO:
-            return (
-                prev.map(todo => {
-                    if (todo.id === action.payload.todoId) {
+            return ({
+                items: prevTodos.map(todo => {
+                    if (todo._id === action.payload.todoId) {
                         todo.name = action.payload.todo
                     } 
                     return todo
-                })
-            )
+                }),
+                loadingTodos: false
+            })
+
         case COMPLETE_TODO:
-            return (
-                prev.map(todo => {
-                    if (todo.id === action.payload) {
+            return ({
+                items: prevTodos.map(todo => {
+                    if (todo._id === action.payload) {
                         todo.done = !todo.done
                     } 
                     return todo
-                })
-            )
+                }),
+                loadingTodos: false
+            })
+
+        case LOADING_TODOS:
+            return {
+                ...state,
+                loadingTodos: true
+            }
         default:
             return state;
     }   

@@ -7,6 +7,7 @@ import {
     Typography,
     IconButton,
 } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,6 +19,8 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+    textDecoration: "none",
+    color: "#fff"
   },
   SignedInAs: {
     paddingTop: 2
@@ -31,9 +34,11 @@ export default function NavBar() {
       <div className={classes.root}>
         <AppBar className={classes.navbar} elevation={0} color="default" position="sticky">
           <Toolbar>
-              <Typography variant="h5" className={classes.title}>
-                  TodoMan
-              </Typography>
+              <Link to="/" className={classes.title}>
+                <Typography variant="h5" className={classes.title}>
+                    TodoMan
+                </Typography>
+              </Link>
 
               { false ? 
               <Typography variant="subtitle1" color="primary" className={classes.SignedInAs}>
@@ -44,9 +49,11 @@ export default function NavBar() {
                     Sign in
                 </Typography>
 
-                <IconButton size="large" color="primary">
-                  <AccountBox fontSize="large"/>
-                </IconButton>
+                <Link to="/login" style={{ textDecoration: 'none' }}>
+                  <IconButton color="primary">
+                    <AccountBox fontSize="large"/>
+                  </IconButton>
+                </Link>
               </>
               }
           </Toolbar>

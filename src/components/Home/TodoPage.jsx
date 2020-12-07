@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AddBox } from '@material-ui/icons'
 import { createMuiTheme } from '@material-ui/core/styles';
 import { 
@@ -17,7 +17,7 @@ import {
 } from '@material-ui/core';
 
 import { useSelector, useDispatch } from 'react-redux'
-import { addTodo } from '../../actions/todosActions';
+import { addTodo, getTodos } from '../../actions/todosActions';
 
 import NavBar from './NavBar'
 import { amber } from '@material-ui/core/colors';
@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
     },
     listInput: {
         width: 120,
-        marginRight: 60
+        marginRight: 40
     },
     title: {
         margin: theme.spacing(0, 2, 2)
@@ -51,15 +51,18 @@ const useStyles = makeStyles((theme) => ({
 
 export default function TodoPage() {
     const classes = useStyles();
-
-    const todos = useSelector(state => state.todos)
-
     const dispatch = useDispatch()
+    const loading = useSelector(state => state.todos.loadingTodos)
+    const todos = useSelector(state => state.todos.items)
+
+    useEffect(() => {
+        dispatch(getTodos())
+    }, [dispatch])
+
     const [ newItemToAdd, setNewItem ] = useState("") 
 
     function handleAddTodo(e) {
         e.preventDefault()
-
         function checkIfItemIsIn(item, list) {
             for (let i = 0; i < list.length; i++) {
                 if (list[i].name === item) {
@@ -96,12 +99,12 @@ export default function TodoPage() {
                             <Typography variant="h6" className={classes.title}>
                                 Todos
                             </Typography>
-                            <Todos todos={todos}/>
+                            <Todos todos={todos} loading={loading}/>
                         </Grid>
 
                         <Grid item className={classes.gridItem}>
                             <List className={classes.listItem}>
-                                <form onSubmit={handleAddTodo}>
+                                <form autoсomplete="off" onSubmit={handleAddTodo}>
                                     <ListItem dense>
                                         <ListItemText className={classes.listInput}> 
                                             <TextField 
@@ -110,7 +113,6 @@ export default function TodoPage() {
                                                 onChange={(e) => setNewItem(e.target.value)}
                                                 variant="outlined" 
                                                 label="New Todo"
-                                                autoComplete="false"
                                             />
                                         </ListItemText>
                                         <ListItemSecondaryAction>

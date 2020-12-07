@@ -1,20 +1,30 @@
 import { ADD_LIST, DELETE_LIST } from '../actions/types'
 
-const lists = [
-    { id: Math.random(), name: "list 1" },
-    { id: Math.random(), name: "list 2" },
-]
+const lists = {
+    items: [
+        { id: Math.random(), name: "list 1" },
+        { id: Math.random(), name: "list 2" }
+    ],
+    loadingLists: false
+}
 
 export default function todoReducer(state = lists, action) {
-    let prev = [...state]
+    let prevLists = [...state.items]
+    let prevLoadingState = state.loadingLists
     switch (action.type) {
         case ADD_LIST:
-            return ([
-                ...prev,
-                { id: Math.random(), name: action.payload }
-            ])
+            return ({
+                items: [
+                    ...prevLists,
+                    { id: Math.random(), name: action.payload }
+                ],
+                loadingLists: prevLoadingState
+            })
         case DELETE_LIST:
-            return prev.filter(list => list.id !== action.payload)
+            return { 
+                items: prevLists.filter(list => list.id !== action.payload),
+                loadinlists: prevLoadingState
+            }
         default:
             return state;
     }   

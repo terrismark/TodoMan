@@ -26,9 +26,8 @@ export default function TodoListItem({ id, value }) {
   const dispatch = useDispatch()
 
   return (
-        <List key={id} className={classes.root}>
-            <ListItem>
-
+        <List key={id} className={classes.root} >
+            <ListItem button>
             <ListItemText className={classes.textItem}>
                 <Typography variant="h5" className={classes.textTodo}>
                     {value}

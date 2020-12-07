@@ -13,6 +13,7 @@ import {
 } from '@material-ui/core';
 
 import { amber } from '@material-ui/core/colors';
+import { Link } from 'react-router-dom';
 
 const darkTheme = createMuiTheme({
   palette: {
@@ -120,9 +121,11 @@ export default function HomePage() {
                                 </Grid>
                             </Grid>
 
-                            <LinkButton variant="body2" color="primary" className={classes.noAccountBtn}>
-                                Already have an account? Sign In
-                            </LinkButton>
+                            <Link to="/login" style={{ textDecoration: 'none' }}>
+                                <LinkButton variant="body2" color="primary" className={classes.noAccountBtn}>
+                                    Already have an account? Sign In
+                                </LinkButton>
+                            </Link>
                         </form>
       
                         <Typography variant="body2" color="textSecondary" align="center" className={classes.footer}>

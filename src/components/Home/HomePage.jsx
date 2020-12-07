@@ -19,6 +19,7 @@ import { Battery20, Visibility, CenterFocusStrong, Flare  } from '@material-ui/i
 import NavBar from './NavBar'
 import Footer from './Footer'
 import { amber } from '@material-ui/core/colors';
+import { Link } from 'react-router-dom';
 
 const darkTheme = createMuiTheme({
   palette: {
@@ -83,15 +84,19 @@ export default function HomePage() {
 
                     <Grid container spacing={2} justify="center" className={classes.buttons}>
                         <Grid item className={classes.gridItemHeader}>
-                            <Button variant="contained" size="large" color="primary">
-                                Create an account
-                            </Button>
+                            <Link to="/register" style={{ textDecoration: 'none' }}>
+                                <Button variant="contained" size="large" color="primary">
+                                    Create an account
+                                </Button>
+                            </Link>
                         </Grid>
 
                         <Grid item className={classes.gridItemHeader}>
-                            <Button variant="outlined" size="large" color="primary">
-                                Sign in
-                            </Button>
+                            <Link to="/login" style={{ textDecoration: 'none' }}>
+                                <Button variant="outlined" size="large" color="primary">
+                                    Sign in
+                                </Button>
+                            </Link>
                         </Grid>
                     </Grid>
                 </div>
@@ -109,7 +114,7 @@ export default function HomePage() {
                         <List className={classes.list}>
                             {advantages.map((value, index) => {
                                 return (
-                                    <ListItem item >
+                                    <ListItem item key={index}>
                                         <ListItemIcon color="primary">
                                             {value.icon}
                                         </ListItemIcon>

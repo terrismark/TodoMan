@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Delete, Edit, Close, Done } from '@material-ui/icons'
 import { 
@@ -8,24 +8,22 @@ import {
   Checkbox, 
   IconButton, 
   ListItem,
-  Typography,
   TextField,
 } from '@material-ui/core';
 import { useDispatch } from 'react-redux'
 import { completeTodo, deleteTodo, updateTodo } from '../../actions/todosActions';
-
 
 const useStyles = makeStyles({
     secondaryButton: {
       marginRight: 0,
     },
     textItem: {
-        maxWidth: 160,
-        marginRight: 80
+        maxWidth: 140,
+        marginRight: 60
     },
     editTextItem: {
-        maxWidth: 160,
-        marginRight: 40,
+        maxWidth: 140,
+        marginRight: 70,
         marginLeft: 10
     },
     completedItem: {
@@ -36,12 +34,16 @@ const useStyles = makeStyles({
     }
 })
 
-export default function TodoItem({ id, value, completed, todos }) {
+export default function TodoItem({ id, value, completed, todos, date }) {
     const classes = useStyles()
     const dispatch = useDispatch()
     const [ editMode, setEditMode ] = useState(false)
 
     const [ newItemToAdd, setNewItem ] = useState(value) 
+
+    useEffect(() => {
+        setNewItem(value)
+    }, [value])
 
     function handleEditItem(e) {
         e.preventDefault()
@@ -83,16 +85,11 @@ export default function TodoItem({ id, value, completed, todos }) {
                     />
                 </ListItemIcon>
 
-                <ListItemText className={classes.textItem}>
-                    { completed ?                 
-                        <Typography className={classes.completedItem}>
-                            {value}
-                        </Typography> :
-                        <Typography>
-                            {value}
-                        </Typography>
-                    }
-                </ListItemText>
+                <ListItemText 
+                    primary={value} 
+                    secondary={date.slice(11, 16) + "  " + date.slice(5, 7) + "/" + date.slice(8, 10)} 
+                    className={completed ? classes.textItem + classes.completedItem : classes.textItem}
+                /> 
 
                 <ListItemSecondaryAction>
                     {!completed && 
@@ -100,7 +97,9 @@ export default function TodoItem({ id, value, completed, todos }) {
                         <Edit />
                     </IconButton>}
                     
-                    <IconButton onClick={() => dispatch(deleteTodo(id))} edge="end" color="primary">
+                    <IconButton onClick={() => dispatch(deleteTodo(id))} 
+                        edge="end" 
+                        color="primary">
                         <Delete />
                     </IconButton>
                 </ListItemSecondaryAction>
@@ -119,7 +118,6 @@ export default function TodoItem({ id, value, completed, todos }) {
             <form onSubmit={handleEditItem}>
                 <ListItemText className={classes.editTextItem}>
                     <TextField
-                        defaultValue={value}
                         value={newItemToAdd}
                         onChange={(e) => setNewItem(e.target.value)}
                         type="text"

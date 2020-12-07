@@ -1,4 +1,9 @@
 import React from 'react'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from "react-router-dom";
 import { Provider } from 'react-redux'
 import store from './store'
 
@@ -11,11 +16,30 @@ import RegisterPage from './components/Auth/RegisterPage'
 function App() {
   return (
     <Provider store={store}>
-      {/* <LoginPage /> */}
-      {/* <RegisterPage /> */}
-      {/* <HomePage />  */}
-      {/* <HomePageAuthed /> */}
-      <TodoPage />
+      <Router>
+        <Switch>
+
+          <Route exact path="/">
+            <HomePage />
+          </Route>
+
+          <Route path="/login">
+            <LoginPage />
+          </Route>
+
+          <Route path="/register">
+            <RegisterPage />
+          </Route>
+
+          <Route path="/listspage">
+            <HomePageAuthed />
+          </Route>
+
+          <Route path="/todospage">
+            <TodoPage />
+          </Route>
+        </Switch>
+      </Router>
     </Provider>
   )
 }
