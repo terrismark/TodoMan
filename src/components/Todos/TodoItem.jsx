@@ -87,7 +87,7 @@ export default function TodoItem({ id, value, completed, todos, date }) {
 
                 <ListItemText 
                     primary={value} 
-                    secondary={date.slice(11, 16) + "  " + date.slice(5, 7) + "/" + date.slice(8, 10)} 
+                    secondary={((parseInt(date.slice(11, 13)) + 4) % 24) + date.slice(13, 16) + "  " + date.slice(8, 10) + "/" + date.slice(5, 7)} 
                     className={completed ? classes.textItem + classes.completedItem : classes.textItem}
                 /> 
 
