@@ -14,9 +14,7 @@ export const getTodos = () => dispatch => {
 
 export const addTodo = (todo) => dispatch => {
     dispatch(setTodosLoading())
-    const obj = {
-        name: todo,
-    }
+    const obj = { name: todo }
     axios.post('/api/todos', obj)
         .then(res => {
             dispatch({
@@ -37,10 +35,8 @@ export const deleteTodo = (todoId) => dispatch => {
 }
 
 export const updateTodo = (todo, todoId) => dispatch => {
-    console.log(todoId)
-    const obj = {
-        name: todo,
-    }
+    const obj = { name: todo }
+
     axios.patch('/api/todos/' + todoId, obj)
         .then(() => {
             dispatch({
@@ -50,11 +46,16 @@ export const updateTodo = (todo, todoId) => dispatch => {
         })
 }
 
-export const completeTodo = (todoId) => {
-    return {
-        type: COMPLETE_TODO,
-        payload: todoId,
-    }
+export const completeTodo = (todoId) => dispatch => {
+    const obj = {}
+
+    axios.patch('/api/todos/' + todoId, obj)
+        .then(() => {
+            dispatch({
+                type: COMPLETE_TODO,
+                payload: todoId ,
+            })
+        })
 }
 
 export const setTodosLoading = () => {

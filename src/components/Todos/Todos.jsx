@@ -1,10 +1,9 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { 
-  List, ListItem, ListItemText, Typography
+  List, ListItem, ListItemText
 } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton'
-
 
 import TodoItem from './TodoItem'
 
@@ -19,9 +18,6 @@ const useStyles = makeStyles({
   textItem: {
     color: "#989898"
   },
-  loader: {
-    
-  }
 })
 
 export default function Todos({ todos, loading }) {
@@ -34,7 +30,7 @@ export default function Todos({ todos, loading }) {
         todos.length > 0 ? todos.map(value => {
             return (
                 <TodoItem 
-                  key={value.id} 
+                  key={value._id} 
                   completed={value.done} 
                   id={value._id} 
                   value={value.name} 
@@ -48,8 +44,8 @@ export default function Todos({ todos, loading }) {
         <>
         {[...Array(todos.length || 1).keys()].map((value) => {
           return (
-              <ListItem key={value} className={classes.loader}>
-                  <Skeleton variant="rect" width={268} height={56} />
+              <ListItem key={value}>
+                  <Skeleton variant="rect" width={268} height={56} style={{borderRadius: 2}}/>
               </ListItem>
           )
         })}

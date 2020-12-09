@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     },
     mainContainer: {
         backgroundColor: "#424242",
-        padding: theme.spacing(8, 0),
+        padding: theme.spacing(6, 0, 4),
         borderRadius: 5,
     },
     pText: {

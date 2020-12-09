@@ -37,19 +37,24 @@ const useStyles = makeStyles((theme) => ({
     mainContainer: {
         margin: theme.spacing(2)
     },
-    gridItem: {
+    gridItem1: {
         marginTop: theme.spacing(2)
     },
-    listInput: {
-        width: 120,
-        marginRight: 40
+    gridItem2: {
+        margin: theme.spacing(0, 2)
     },
-    title: {
-        margin: theme.spacing(0, 2, 2)
+    listInput: {
+        minWidth: 60,
+        maxWidth: 180,
+        marginRight: 0
     }
 }))
 
 export default function TodoPage() {
+    const auth = {
+        name: "Mark Terris"
+    }
+
     const classes = useStyles();
     const dispatch = useDispatch()
     const loading = useSelector(state => state.todos.loadingTodos)
@@ -63,6 +68,7 @@ export default function TodoPage() {
 
     function handleAddTodo(e) {
         e.preventDefault()
+
         function checkIfItemIsIn(item, list) {
             for (let i = 0; i < list.length; i++) {
                 if (list[i].name === item) {
@@ -87,7 +93,7 @@ export default function TodoPage() {
         <ThemeProvider theme={darkTheme}>
             <CssBaseline />
                 <Container maxWidth="md"  className={classes.container}>
-                    <NavBar />
+                    <NavBar auth={auth}/>
                     <div container justify="center" className={classes.mainContainer}>
                         <Typography component="h4" variant="h4" align="center" color="textPrimary">
                             List 1
@@ -95,14 +101,7 @@ export default function TodoPage() {
                     </div>
                     
                     <Grid container alignContent="center" direction="column">
-                        <Grid item className={classes.gridItem}>
-                            <Typography variant="h6" className={classes.title}>
-                                Todos
-                            </Typography>
-                            <Todos todos={todos} loading={loading}/>
-                        </Grid>
-
-                        <Grid item className={classes.gridItem}>
+                        <Grid item className={classes.gridItem2}>
                             <List className={classes.listItem}>
                                 <form autoсomplete="off" onSubmit={handleAddTodo}>
                                     <ListItem dense>
@@ -123,6 +122,10 @@ export default function TodoPage() {
                                     </ListItem>
                                 </form>
                             </List>
+                        </Grid>
+
+                        <Grid item className={classes.gridItem1}>
+                            <Todos todos={todos} loading={loading}/>
                         </Grid>
                     </Grid>
                 </Container>

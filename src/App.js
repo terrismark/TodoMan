@@ -14,13 +14,17 @@ import LoginPage from './components/Auth/LoginPage'
 import RegisterPage from './components/Auth/RegisterPage'
 
 function App() {
+  const auth = true
+
   return (
     <Provider store={store}>
       <Router>
         <Switch>
 
           <Route exact path="/">
-            <HomePage />
+            {auth ? 
+            <HomePageAuthed /> :
+            <HomePage />}
           </Route>
 
           <Route path="/login">
@@ -29,10 +33,6 @@ function App() {
 
           <Route path="/register">
             <RegisterPage />
-          </Route>
-
-          <Route path="/listspage">
-            <HomePageAuthed />
           </Route>
 
           <Route path="/todospage">

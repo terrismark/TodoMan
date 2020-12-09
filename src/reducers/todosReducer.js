@@ -55,6 +55,7 @@ export default function todoReducer(state = todos, action) {
                 ...state,
                 loadingTodos: true
             }
+            
         default:
             return state;
     }   

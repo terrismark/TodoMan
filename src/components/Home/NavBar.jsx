@@ -27,22 +27,24 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function NavBar() {
+export default function NavBar({ auth }) {
   const classes = useStyles();
 
   return (
       <div className={classes.root}>
         <AppBar className={classes.navbar} elevation={0} color="default" position="sticky">
           <Toolbar>
-              <Link to="/" className={classes.title}>
+              
                 <Typography variant="h5" className={classes.title}>
-                    TodoMan
+                    <Link to="/" className={classes.title}>
+                      TodoMan
+                    </Link>
                 </Typography>
-              </Link>
+              
 
-              { false ? 
+              { auth ? 
               <Typography variant="subtitle1" color="primary" className={classes.SignedInAs}>
-                  Signed in as: User
+                  {auth.name}
               </Typography> :
               <>
                 <Typography variant="subtitle1" color="primary">

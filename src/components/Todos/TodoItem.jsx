@@ -27,7 +27,9 @@ const useStyles = makeStyles({
         marginLeft: 10
     },
     completedItem: {
-        textDecoration: "line-through"
+        textDecoration: "line-through",
+        maxWidth: 140,
+        marginRight: 60
     },
     cancelEdit: {
         marginLeft: -13
@@ -87,8 +89,8 @@ export default function TodoItem({ id, value, completed, todos, date }) {
 
                 <ListItemText 
                     primary={value} 
-                    secondary={((parseInt(date.slice(11, 13)) + 4) % 24) + date.slice(13, 16) + "  " + date.slice(8, 10) + "/" + date.slice(5, 7)} 
-                    className={completed ? classes.textItem + classes.completedItem : classes.textItem}
+                    secondary={"From " + date.slice(8, 10) + "/" + date.slice(5, 7)} 
+                    className={completed ? classes.completedItem : classes.textItem}
                 /> 
 
                 <ListItemSecondaryAction>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { 
     Button, 
@@ -17,13 +17,14 @@ import {
 } from '@material-ui/core';
 
 import { useSelector, useDispatch } from 'react-redux'
-import { addList } from '../../actions/listsActions';
+import { getLists, addList } from '../../actions/listsActions';
 
 import NavBar from './NavBar'
 import Footer from './Footer'
 import TodoLists from '../Todos/TodoLists'
 import { amber } from '@material-ui/core/colors';
 import { AddBox } from '@material-ui/icons';
+
 
 const darkTheme = createMuiTheme({
   palette: {
@@ -38,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     },
     mainContainer: {
         backgroundColor: "#424242",
-        padding: theme.spacing(8, 0),
+        padding: theme.spacing(6, 0, 4),
         borderRadius: 5,
     },
     pText: {
@@ -66,14 +67,28 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function HomePageAuthed() {
-    const classes = useStyles();
-    const lists = useSelector(state => state.lists)
+    const auth = {
+        name: "Mark Terris"
+    }
 
+    const classes = useStyles();
     const dispatch = useDispatch()
+    const loading = useSelector(state => state.lists.loadingLists)
+    const lists = useSelector(state => state.lists.items)
+
+    useEffect(() => {
+        dispatch(getLists())
+    }, [dispatch])
+
     const [ newItemToAdd, setNewItem ] = useState("") 
 
     function handleAddList(e) {
         e.preventDefault()
+
+        if (newItemToAdd.length > 16) {
+            alert("Two long name. Try another variant!")
+            return
+        }
 
         function checkIfItemIsIn(item, list) {
             for (let i = 0; i < list.length; i++) {
@@ -99,7 +114,7 @@ export default function HomePageAuthed() {
         <ThemeProvider theme={darkTheme}>
             <CssBaseline />
             <Container maxWidth="md">
-                    <NavBar />
+                    <NavBar auth={auth}/>
 
                     <div container justify="center" className={classes.mainContainer}>
                         <Typography component="h3" variant="h3" align="center" color="textPrimary" gutterBottom className={classes.MainText}>
@@ -116,7 +131,7 @@ export default function HomePageAuthed() {
                             Your Todo lists
                         </Typography>
 
-                        <TodoLists lists={lists}/>
+                        <TodoLists lists={lists} loading={loading}/>
                         <Divider />
 
                         <Grid container alignContent="center" direction="column">
