@@ -1,9 +1,10 @@
 import axios from 'axios'
 import { GET_LISTS, DELETE_LIST, ADD_LIST, LOADING_LISTS } from './types'
+import { API_URL } from '../api'
 
 export const getLists = () => dispatch => {
     dispatch(setListsLoading())
-    axios.get('/api/lists')
+    axios.get(API_URL + '/api/lists')
             .then(res => {
                 dispatch({
                     type: GET_LISTS,
@@ -15,7 +16,7 @@ export const getLists = () => dispatch => {
 export const addList = (list) => dispatch => {
     dispatch(setListsLoading())
     const obj = { name: list }
-    axios.post('/api/lists', obj)
+    axios.post(API_URL + '/api/lists', obj)
         .then(res => {
             dispatch({
                 type: ADD_LIST,
@@ -25,7 +26,7 @@ export const addList = (list) => dispatch => {
 
 export const deleteList = (listId) => dispatch => {
     dispatch(setListsLoading())
-    axios.delete('/api/lists/' + listId)
+    axios.delete(API_URL + '/api/lists/' + listId)
         .then(() => {
             dispatch({
                 type: DELETE_LIST,

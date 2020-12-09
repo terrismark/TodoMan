@@ -1,9 +1,10 @@
 import axios from 'axios'
 import { GET_TODOS, ADD_TODO, DELETE_TODO, UPDATE_TODO, COMPLETE_TODO, LOADING_TODOS } from './types'
+import { API_URL } from '../api'
 
 export const getTodos = () => dispatch => {
     dispatch(setTodosLoading())
-    axios.get('/api/todos')
+    axios.get(API_URL + '/api/todos')
             .then(res => {
                 dispatch({
                     type: GET_TODOS,
@@ -15,7 +16,7 @@ export const getTodos = () => dispatch => {
 export const addTodo = (todo) => dispatch => {
     dispatch(setTodosLoading())
     const obj = { name: todo }
-    axios.post('/api/todos', obj)
+    axios.post(API_URL + '/api/todos', obj)
         .then(res => {
             dispatch({
                 type: ADD_TODO,
@@ -25,7 +26,7 @@ export const addTodo = (todo) => dispatch => {
 
 export const deleteTodo = (todoId) => dispatch => {
     dispatch(setTodosLoading())
-    axios.delete('/api/todos/' + todoId)
+    axios.delete(API_URL + '/api/todos/' + todoId)
         .then(() => {
             dispatch({
                 type: DELETE_TODO,
@@ -37,7 +38,7 @@ export const deleteTodo = (todoId) => dispatch => {
 export const updateTodo = (todo, todoId) => dispatch => {
     const obj = { name: todo }
 
-    axios.patch('/api/todos/' + todoId, obj)
+    axios.patch(API_URL + '/api/todos/' + todoId, obj)
         .then(() => {
             dispatch({
                 type: UPDATE_TODO,
@@ -49,7 +50,7 @@ export const updateTodo = (todo, todoId) => dispatch => {
 export const completeTodo = (todoId) => dispatch => {
     const obj = {}
 
-    axios.patch('/api/todos/' + todoId, obj)
+    axios.patch(API_URL + '/api/todos/' + todoId, obj)
         .then(() => {
             dispatch({
                 type: COMPLETE_TODO,
