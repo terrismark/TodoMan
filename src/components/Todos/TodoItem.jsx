@@ -36,7 +36,7 @@ const useStyles = makeStyles({
     }
 })
 
-export default function TodoItem({ id, value, completed, todos, date }) {
+export default function TodoItem({ id, value, completed, todos, date, listId }) {
     const classes = useStyles()
     const dispatch = useDispatch()
     const [ editMode, setEditMode ] = useState(false)
@@ -65,7 +65,7 @@ export default function TodoItem({ id, value, completed, todos, date }) {
         }
 
         if (newItemToAdd.length > 0) {
-            dispatch(updateTodo(newItemToAdd, id))
+            dispatch(updateTodo(newItemToAdd, id, listId))
         }
 
         setNewItem("")
@@ -82,7 +82,7 @@ export default function TodoItem({ id, value, completed, todos, date }) {
                         edge="start"
                         color="primary"
                         checked={completed}
-                        onChange={() => dispatch(completeTodo(id))}
+                        onChange={() => dispatch(completeTodo(id, listId))}
                         disableRipple
                     />
                 </ListItemIcon>
@@ -99,7 +99,7 @@ export default function TodoItem({ id, value, completed, todos, date }) {
                         <Edit />
                     </IconButton>}
                     
-                    <IconButton onClick={() => dispatch(deleteTodo(id))} 
+                    <IconButton onClick={() => dispatch(deleteTodo(id, listId))} 
                         edge="end" 
                         color="primary">
                         <Delete />
@@ -127,7 +127,12 @@ export default function TodoItem({ id, value, completed, todos, date }) {
                 </ListItemText>
 
                 <ListItemSecondaryAction>
-                    <IconButton type="submit" edge="end" color="primary" disabled={newItemToAdd.length === 0 || newItemToAdd === value}>
+                    <IconButton 
+                    type="submit" 
+                    edge="end" 
+                    color="primary" 
+                    disabled={newItemToAdd.length === 0 || newItemToAdd === value}
+                    >
                         <Done />
                     </IconButton>
                 </ListItemSecondaryAction>

@@ -20,7 +20,7 @@ const useStyles = makeStyles({
   },
 })
 
-export default function Todos({ todos, loading }) {
+export default function Todos({ todos, loading, listId }) {
   const classes = useStyles();
 
   return (
@@ -30,6 +30,7 @@ export default function Todos({ todos, loading }) {
         todos.length > 0 ? todos.map(value => {
             return (
                 <TodoItem 
+                  listId={listId}
                   key={value._id} 
                   completed={value.done} 
                   id={value._id} 

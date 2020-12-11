@@ -29,14 +29,14 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-export default function TodoListItem({ id, value }) {
+export default function TodoListItem({ id, value, name, todosCount }) {
   const classes = useStyles();
   const dispatch = useDispatch()
   const history = useHistory()
 
   return (
         <List key={id} className={classes.root} >
-                <ListItem button onClick={() => history.push("/todospage")}>
+                <ListItem button onClick={() => history.push(`/${name}`)}>
                     <ListItemText 
                         primary={
                             <Typography style={{fontSize: "1.5rem"}}>
@@ -55,7 +55,9 @@ export default function TodoListItem({ id, value }) {
 
             <ListItem>
                 <Typography variant="body2" component="p">
-                    {"No tasks yet. Create new!"}
+                    { todosCount > 0 ? 
+                      `Number of tasks: ${todosCount}` : 
+                      "No tasks yet. Create new!"}
                 </Typography>
             </ListItem>
 

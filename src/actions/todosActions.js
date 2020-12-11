@@ -1,60 +1,66 @@
 import axios from 'axios'
-import { GET_TODOS, ADD_TODO, DELETE_TODO, UPDATE_TODO, COMPLETE_TODO, LOADING_TODOS } from './types'
+import { ADD_TODO, DELETE_TODO, UPDATE_TODO, COMPLETE_TODO, LOADING_TODOS } from './types'
 import { API_URL } from '../api'
 
-export const getTodos = () => dispatch => {
+export const addTodo = (todo, listId) => dispatch => {
     dispatch(setTodosLoading())
-    axios.get(API_URL + '/api/todos')
-            .then(res => {
-                dispatch({
-                    type: GET_TODOS,
-                    payload: res.data
-                })
-            })
-}
 
-export const addTodo = (todo) => dispatch => {
-    dispatch(setTodosLoading())
     const obj = { name: todo }
-    axios.post(API_URL + '/api/todos', obj)
+
+    axios.post(API_URL + '/api/lists/' + listId, obj)
         .then(res => {
             dispatch({
                 type: ADD_TODO,
-                payload: res.data
+                payload: { todos: res.data, listId }
         })})
 }
 
-export const deleteTodo = (todoId) => dispatch => {
+export const deleteTodo = (todoId, listId) => dispatch => {
     dispatch(setTodosLoading())
-    axios.delete(API_URL + '/api/todos/' + todoId)
+
+    const obj = { 
+        id: todoId, 
+        type: "delete" 
+    }
+
+    axios.patch(API_URL + '/api/lists/' + listId, obj)
         .then(() => {
             dispatch({
                 type: DELETE_TODO,
-                payload: todoId,
+                payload: { todoId, listId }
             })
         })
 }
 
-export const updateTodo = (todo, todoId) => dispatch => {
-    const obj = { name: todo }
+export const updateTodo = (todo, todoId, listId) => dispatch => {
 
-    axios.patch(API_URL + '/api/todos/' + todoId, obj)
+    const obj = { 
+        id: todoId,
+        name: todo,
+        type: "rename"
+    }
+
+    axios.patch(API_URL + '/api/lists/' + listId, obj)
         .then(() => {
             dispatch({
                 type: UPDATE_TODO,
-                payload: { todo, todoId },
+                payload: { todo, todoId, listId }
             })
         })
 }
 
-export const completeTodo = (todoId) => dispatch => {
-    const obj = {}
+export const completeTodo = (todoId, listId) => dispatch => {
 
-    axios.patch(API_URL + '/api/todos/' + todoId, obj)
+    const obj = { 
+        id: todoId,
+        type: "complete"
+    }
+
+    axios.patch(API_URL + '/api/lists/' + listId, obj)
         .then(() => {
             dispatch({
                 type: COMPLETE_TODO,
-                payload: todoId ,
+                payload: { todoId, listId }
             })
         })
 }

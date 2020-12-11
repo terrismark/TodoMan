@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { AddBox } from '@material-ui/icons'
 import { createMuiTheme } from '@material-ui/core/styles';
 import { 
@@ -17,7 +17,7 @@ import {
 } from '@material-ui/core';
 
 import { useSelector, useDispatch } from 'react-redux'
-import { addTodo, getTodos } from '../../actions/todosActions';
+import { addTodo } from '../../actions/todosActions';
 
 import NavBar from './NavBar'
 import { amber } from '@material-ui/core/colors';
@@ -50,19 +50,14 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-export default function TodoPage() {
+export default function TodoPage({ todos, listId }) {
     const auth = {
-        name: "Mark Terris"
+        name: "User 0"
     }
 
     const classes = useStyles();
     const dispatch = useDispatch()
-    const loading = useSelector(state => state.todos.loadingTodos)
-    const todos = useSelector(state => state.todos.items)
-
-    useEffect(() => {
-        dispatch(getTodos())
-    }, [dispatch])
+    const loading = useSelector(state => state.lists.loadingTodos)
 
     const [ newItemToAdd, setNewItem ] = useState("") 
 
@@ -84,7 +79,7 @@ export default function TodoPage() {
         }
 
         if (newItemToAdd.length > 0) {
-            dispatch(addTodo(newItemToAdd))
+            dispatch(addTodo(newItemToAdd, listId))
         }
         setNewItem("")
     }
@@ -125,7 +120,7 @@ export default function TodoPage() {
                         </Grid>
 
                         <Grid item className={classes.gridItem1}>
-                            <Todos todos={todos} loading={loading}/>
+                            <Todos todos={todos} listId={listId} loading={loading}/>
                         </Grid>
                     </Grid>
                 </Container>

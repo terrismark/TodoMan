@@ -31,7 +31,7 @@ export default function TodoLists({ lists, loading }) {
         lists.length > 0 ? 
           lists.map(value => {
             return (
-                <TodoListItem key={value._id} id={value._id} value={value.name} date={value.date}/>  
+                <TodoListItem key={value._id} id={value._id} value={value.name} name={value.name} todosCount={value.todos.length} />  
             )
         }) :
         <Typography variant="h6" color="textSecondary" className={classes.typoNoLists}>

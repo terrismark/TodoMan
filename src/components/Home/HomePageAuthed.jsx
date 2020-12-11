@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { 
     Button, 
@@ -17,7 +17,7 @@ import {
 } from '@material-ui/core';
 
 import { useSelector, useDispatch } from 'react-redux'
-import { getLists, addList } from '../../actions/listsActions';
+import { addList } from '../../actions/listsActions';
 
 import NavBar from './NavBar'
 import Footer from './Footer'
@@ -66,19 +66,14 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-export default function HomePageAuthed() {
+export default function HomePageAuthed({ lists }) {
     const auth = {
-        name: "Mark Terris"
+        name: "User 0"
     }
 
-    const classes = useStyles();
+    const classes = useStyles()
     const dispatch = useDispatch()
     const loading = useSelector(state => state.lists.loadingLists)
-    const lists = useSelector(state => state.lists.items)
-
-    useEffect(() => {
-        dispatch(getLists())
-    }, [dispatch])
 
     const [ newItemToAdd, setNewItem ] = useState("") 
 
