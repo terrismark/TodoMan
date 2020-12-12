@@ -1,4 +1,14 @@
-import { GET_LISTS, ADD_LIST, DELETE_LIST, LOADING_LISTS, ADD_TODO, DELETE_TODO, UPDATE_TODO, COMPLETE_TODO, LOADING_TODOS } from '../actions/types'
+import { 
+    GET_LISTS, 
+    ADD_LIST, 
+    DELETE_LIST, 
+    LOADING_LISTS, 
+    ADD_TODO, 
+    DELETE_TODO, 
+    UPDATE_TODO, 
+    COMPLETE_TODO, 
+    LOADING_TODOS 
+} from '../actions/types'
 
 const lists = {
     items: [],

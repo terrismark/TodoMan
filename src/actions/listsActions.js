@@ -1,11 +1,18 @@
 import axios from 'axios'
-import { GET_LISTS, DELETE_LIST, ADD_LIST, LOADING_LISTS } from './types'
+import { 
+    GET_LISTS, 
+    DELETE_LIST, 
+    ADD_LIST, 
+    LOADING_LISTS 
+} from './types'
 import { API_URL } from '../api'
 
-export const getLists = () => dispatch => {
+import { tokenConfig } from './authActions'
+
+export const getLists = () => (dispatch, getState) => {
     dispatch(setListsLoading())
 
-    axios.get(API_URL + '/api/lists')
+    axios.get(API_URL + '/api/lists', tokenConfig(getState))
             .then(res => {
                 dispatch({
                     type: GET_LISTS,
@@ -14,14 +21,13 @@ export const getLists = () => dispatch => {
             })
 }
 
-export const addList = (list) => dispatch => {
+export const addList = (list) => (dispatch, getState) => {
     dispatch(setListsLoading())
 
     const obj = { name: list }
 
-    axios.post(API_URL + '/api/lists', obj)
+    axios.post(API_URL + '/api/lists', obj, tokenConfig(getState))
         .then(res => {
-            console.log(res.data)
             dispatch({
                 type: ADD_LIST,
                 payload: res.data

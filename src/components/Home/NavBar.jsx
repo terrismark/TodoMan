@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles} from '@material-ui/core/styles';
 import { AccountBox } from '@material-ui/icons'
 import { 
@@ -6,8 +6,12 @@ import {
     Toolbar,
     Typography,
     IconButton,
+    Popover,
+    Button,
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux'
+import { logout, setLoadingUser } from '../../actions/authActions'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,11 +28,32 @@ const useStyles = makeStyles((theme) => ({
   },
   SignedInAs: {
     paddingTop: 2
+  },
+  popOver: {
+    padding: theme.spacing(2)
   }
 }));
 
-export default function NavBar({ auth }) {
+export default function NavBar() {
   const classes = useStyles();
+  const [ anchorPopOver, setAnchorPopOver ] = useState(null)
+  const dispatch = useDispatch()
+  const auth = useSelector(state => state.auth)
+  const [ isAuthed, setAuthed ] = useState(false)
+  const [ username, setUsername ] = useState(null)
+
+  useEffect(() => {
+    if (auth.isAuthed) {
+      setAuthed(true)
+      setUsername(auth.user.username)
+    }
+  }, [dispatch, auth])
+
+  function handleLogOut() {
+    dispatch(setLoadingUser())
+    dispatch(logout())
+    window.location.reload()
+  }
 
   return (
       <div className={classes.root}>
@@ -42,10 +67,34 @@ export default function NavBar({ auth }) {
                 </Typography>
               
 
-              { auth ? 
-              <Typography variant="subtitle1" color="primary" className={classes.SignedInAs}>
-                  {auth.name}
-              </Typography> :
+              { isAuthed ? 
+              <>
+                <Typography variant="subtitle1" color="primary" className={classes.SignedInAs}>
+                    {username}
+                </Typography>
+
+                <IconButton color="primary" onClick={(e) => setAnchorPopOver(e.currentTarget)}>
+                    <AccountBox fontSize="large"/>
+                </IconButton>
+
+                <Popover
+                  open={Boolean(anchorPopOver)}
+                  anchorEl={anchorPopOver}
+                  onClose={() => setAnchorPopOver(null)}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'center',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',
+                  }}
+                >
+                  <Link to="/" className={classes.title}>
+                    <Button className={classes.typography} size="large" onClick={handleLogOut}>Logout</Button>
+                  </Link>
+                </Popover>
+              </> :
               <>
                 <Typography variant="subtitle1" color="primary">
                     Sign in

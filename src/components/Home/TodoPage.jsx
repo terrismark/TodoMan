@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-export default function TodoPage({ todos, listId }) {
+export default function TodoPage({ todos, listId, name }) {
     const auth = {
         name: "User 0"
     }
@@ -90,8 +90,8 @@ export default function TodoPage({ todos, listId }) {
                 <Container maxWidth="md"  className={classes.container}>
                     <NavBar auth={auth}/>
                     <div container justify="center" className={classes.mainContainer}>
-                        <Typography component="h4" variant="h4" align="center" color="textPrimary">
-                            List 1
+                        <Typography component="h4" variant="h4" align="center" color="primary">
+                            {name[0].toUpperCase() + name.slice(1)}
                         </Typography>
                     </div>
                     

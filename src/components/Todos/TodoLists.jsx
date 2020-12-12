@@ -45,7 +45,7 @@ export default function TodoLists({ lists, loading }) {
                 </ListItem>
 
                 <ListItem>
-                  <Skeleton variant="rect" width={160} height={18} style={{borderRadius: 5}}/>
+                  <Skeleton variant="rect" width={160} height={18} style={{borderRadius: 2}}/>
                 </ListItem>
 
               </List>

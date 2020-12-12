@@ -111,7 +111,7 @@ export default function HomePageAuthed({ lists }) {
             <Container maxWidth="md">
                     <NavBar auth={auth}/>
 
-                    <div container justify="center" className={classes.mainContainer}>
+                    {false && <div container justify="center" className={classes.mainContainer}>
                         <Typography component="h3" variant="h3" align="center" color="textPrimary" gutterBottom className={classes.MainText}>
                             Welcome back!
                         </Typography>
@@ -119,7 +119,7 @@ export default function HomePageAuthed({ lists }) {
                         <Typography variant="h6" align="center" color="textSecondary" paragraph className={classes.pText}>
                             You can choose lists you have already created or create a new one
                         </Typography>
-                    </div>
+                    </div>}
 
                     <Grid container justify="center" className={classes.main} alignContent="center" direction="column"> 
                         <Typography component="h4" variant="h4" align="center" color="primary" gutterBottom>
