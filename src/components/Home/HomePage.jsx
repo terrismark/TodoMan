@@ -110,7 +110,7 @@ export default function HomePage() {
                         Positives about the dark themed user interfaces.
                     </Typography> 
 
-                    <Grid item>
+                    <Grid item align="center">
                         <List className={classes.list}>
                             {advantages.map((value, index) => {
                                 return (

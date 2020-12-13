@@ -15,7 +15,7 @@ import validator from 'validator'
 import { amber } from '@material-ui/core/colors';
 import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../../actions/authActions'
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Alert, AlertTitle } from '@material-ui/lab';
 
 const darkTheme = createMuiTheme({
@@ -80,6 +80,13 @@ export default function LoginPage() {
     const [ emailToAdd, setEmail ] = useState("")
     const [ passwordToAdd, setPassword ] = useState("")
 
+    useEffect(() => {
+        if (!emailToAdd && !passwordToAdd) {
+            setErrorMessage({ name: "", status: false})
+        }
+
+    }, [emailToAdd, passwordToAdd])
+
     function handleSubmitLogin(event) {
         event.preventDefault()
 
@@ -92,7 +99,8 @@ export default function LoginPage() {
         setEmailError({ name: "", status: false})
 
         if (!validator.isEmail(logData.email)) {
-           return setEmailError({ name: "Invalid email", status: true})
+            setErrorMessage({ name: "", status: false})
+            return setEmailError({ name: "Invalid email", status: true})
         }
 
         dispatch(login(logData))
@@ -122,12 +130,10 @@ export default function LoginPage() {
                                     variant="outlined"
                                     required
                                     fullWidth
-                                    id="email"
                                     helperText={emailError.name}
                                     value={emailToAdd}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    label="Email Address"
-                                    name="email"
+                                    label="E m a i l"
                                     // autoComplete="email"
                                     autoComplete="off"
                                     autoFocus
@@ -139,12 +145,10 @@ export default function LoginPage() {
                                     variant="outlined"
                                     required
                                     fullWidth
-                                    name="password"
-                                    label="Password"
+                                    label="P a s s w o r d"
                                     value={passwordToAdd}
                                     onChange={(e) => setPassword(e.target.value)}
                                     type="password"
-                                    id="password"
                                     // autoComplete="current-password"
                                     autoComplete="off"
                                 />
@@ -165,11 +169,9 @@ export default function LoginPage() {
                                 </Grid>
                             </Grid>
 
-                            <Link to="/register" style={{ textDecoration: 'none' }}>
-                                <LinkButton variant="body2" color="primary" className={classes.onAccountBtn}>
-                                    Don't have an account? Sign Up
-                                </LinkButton>
-                            </Link>
+                            <LinkButton href="/register" variant="body2" color="primary" className={classes.onAccountBtn}>
+                                Don't have an account? Sign Up
+                            </LinkButton>
                         </form>
       
                         <Typography variant="body2" color="textSecondary" align="center" className={classes.footer}>

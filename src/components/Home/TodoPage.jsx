@@ -116,8 +116,8 @@ export default function TodoPage({ todos, listId, name }) {
                         }
                     </div>
                     
-                    <Grid container alignContent="center" direction="column">
-                        <Grid item className={classes.gridItem2}>
+                    <Grid container alignContent="center" ustify="center" direction="column">
+                        <Grid item align="center" className={classes.gridItem2}>
                             <List className={classes.listItem}>
                                 <form autoсomplete="off" onSubmit={handleAddTodo}>
                                     <ListItem dense>
@@ -140,7 +140,7 @@ export default function TodoPage({ todos, listId, name }) {
                             </List>
                         </Grid>
 
-                        <Grid item className={classes.gridItem1}>
+                        <Grid item align="center" className={classes.gridItem1}>
                             <Todos 
                                 todos={todos} 
                                 listId={listId} 

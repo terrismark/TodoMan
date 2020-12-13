@@ -154,7 +154,7 @@ export default function HomePageAuthed({ lists, username }) {
                             </Grid>
 
                             <Grid item align="center" className={classes.createNew}>
-                                <List className={classes.listItem}>
+                                <List  align="center" className={classes.listItem}>
                                     <form autoсomplete="off" onSubmit={handleAddList}>
                                         <ListItem dense>
                                             <ListItemText className={classes.listInput}>

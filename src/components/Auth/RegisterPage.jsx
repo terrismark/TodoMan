@@ -16,7 +16,7 @@ import { amber } from '@material-ui/core/colors';
 import validator from 'validator'
 import { useDispatch, useSelector } from 'react-redux'
 import { register } from '../../actions/authActions'
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Alert, AlertTitle } from '@material-ui/lab';
 
 const darkTheme = createMuiTheme({
@@ -85,6 +85,13 @@ export default function RegisterPage() {
     const [ emailToAdd, setEmail ] = useState("")
     const [ passwordToAdd, setPassword ] = useState("")
 
+    useEffect(() => {
+        if (!usernameToAdd && !emailToAdd && !passwordToAdd) {
+            setErrorMessage({ name: "", status: false})
+        }
+
+    }, [usernameToAdd, emailToAdd, passwordToAdd])
+
     function handleSubmitRegistration(event) {
         event.preventDefault()
 
@@ -100,14 +107,17 @@ export default function RegisterPage() {
         setPasswordError({ name: "", status: false}) 
 
         if (regData.username.length > 12) {
+            setErrorMessage({ name: "", status: false})
             return setUsernameError({ name: "Too long username", status: true})
         } 
 
         if (!validator.isEmail(regData.email)) {
+            setErrorMessage({ name: "", status: false})
             return setEmailError({ name: "Invalid email", status: true})
         } 
 
         if (regData.password.length < 6) {
+            setErrorMessage({ name: "", status: false})
             return setPasswordError({ name: "Password too short", status: true})
         }
 
@@ -140,10 +150,9 @@ export default function RegisterPage() {
                                     helperText={usernameError.name || "max length: 12 characters"}
                                     required
                                     fullWidth
-                                    id="username"
                                     value={usernameToAdd}
                                     onChange={(e) => setUsername(e.target.value)}
-                                    label="Username"
+                                    label="U s e r n a m e"
                                     autoComplete="off"
                                     autoFocus
                                 />
@@ -155,12 +164,10 @@ export default function RegisterPage() {
                                     variant="outlined"
                                     required
                                     fullWidth
-                                    id="email"
-                                    helperText={emailError.name}
+                                    helperText={emailError.name || "We'll never share your email with anyone else."}
                                     value={emailToAdd}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    label="Email Address"
-                                    name="email"
+                                    label="E m a i l"
                                     // autoComplete="email"
                                     autoComplete="off"
                                 />
@@ -172,13 +179,11 @@ export default function RegisterPage() {
                                     variant="outlined"
                                     required
                                     fullWidth
-                                    name="password"
                                     helperText={passwordError.name || "min length: 6 characters"}
                                     value={passwordToAdd}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    label="Password"
+                                    label="P a s s w o r d"
                                     type="password"
-                                    id="password"
                                     // autoComplete="current-password"
                                     autoComplete="off"
                                 />
@@ -199,11 +204,9 @@ export default function RegisterPage() {
                                 </Grid>
                             </Grid>
 
-                            <Link to="/login" style={{ textDecoration: 'none' }}>
-                                <LinkButton variant="body2" color="primary" className={classes.noAccountBtn}>
-                                    Already have an account? Sign In
-                                </LinkButton>
-                            </Link>
+                            <LinkButton href="/login" variant="body2" color="primary" className={classes.noAccountBtn}>
+                                Already have an account? Sign In
+                            </LinkButton>
                         </form>
       
                         <Typography variant="body2" color="textSecondary" align="center" className={classes.footer}>
