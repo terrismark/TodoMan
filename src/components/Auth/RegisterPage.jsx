@@ -15,8 +15,9 @@ import { amber } from '@material-ui/core/colors';
 
 import validator from 'validator'
 import { useDispatch, useSelector } from 'react-redux'
-import { register, setLoadingUser } from '../../actions/authActions'
+import { register } from '../../actions/authActions'
 import { Link, useHistory } from 'react-router-dom';
+import { Alert, AlertTitle } from '@material-ui/lab';
 
 const darkTheme = createMuiTheme({
   palette: {
@@ -47,25 +48,34 @@ const useStyles = makeStyles((theme) => ({
     },
     container: {
         padding: theme.spacing(0, 4)
+    },
+    alert: {
+        width: '100%',
+        marginTop: theme.spacing(4)
     }
 }))
 
 export default function RegisterPage() {
     const classes = useStyles()
     const dispatch = useDispatch()
-    const error = useSelector(state => state.error.msg)
+    const error = useSelector(state => state.error)
+    const [ errorMessage, setErrorMessage ] = useState({ name: "", status: false})
+
+    const authed = useSelector(state => state.auth.isAuthed)
 
     const history = useHistory()
 
-    const [ errorMessage, setErrorMessage ] = useState(null)
-
     useEffect(() => {
-        if (error.name === "REGISTER_FAIL") {
-            setErrorMessage(error.message)
-        } else {
-            setErrorMessage(null)
+        if (authed) {
+            setEmail("")
+            setPassword("")
+            history.push("/")
+
+        } else if (error.name === "REGISTER_FAIL") {
+            setErrorMessage({ name: error.msg.message, status: true })
         }
-    }, [error])
+
+    }, [error, authed, history])
 
     const [ usernameError, setUsernameError ] = useState({ name: "", status: false })
     const [ emailError, setEmailError ] = useState({ name: "", status: false })
@@ -75,30 +85,8 @@ export default function RegisterPage() {
     const [ emailToAdd, setEmail ] = useState("")
     const [ passwordToAdd, setPassword ] = useState("")
 
-    function handleSubmitRegistration(e) {
-        e.preventDefault()
-
-        if (usernameToAdd.length > 12) {
-            setUsernameError({ name: "Too long username", status: true})
-        } else {
-            setUsernameError({ name: "", status: false})
-        }
-
-        if (!validator.isEmail(emailToAdd)) {
-            setEmailError({ name: "Invalid email", status: true})
-        } else {
-            setEmailError({ name: "", status: false})
-        }
-
-        if (!validator.isLength(passwordToAdd, {min: 6})) {
-            setPasswordError({ name: "Password too short", status: true})
-        } else {
-            setPasswordError({ name: "", status: false})
-        }
-
-        if (emailError.status || passwordError.status || usernameError.status) {
-            return
-        }
+    function handleSubmitRegistration(event) {
+        event.preventDefault()
 
         const regData = {
             username: usernameToAdd,
@@ -106,19 +94,24 @@ export default function RegisterPage() {
             password: passwordToAdd
         }
 
-        dispatch(register(regData))
-        dispatch(setLoadingUser())
+        //  clearing prev errors
+        setUsernameError({ name: "", status: false})
+        setEmailError({ name: "", status: false})
+        setPasswordError({ name: "", status: false}) 
 
-        if (errorMessage) {
-            alert(errorMessage)
-            return
+        if (regData.username.length > 12) {
+            return setUsernameError({ name: "Too long username", status: true})
         } 
-    
-        setUsername("")
-        setEmail("")
-        setPassword("")
 
-        history.push("/")
+        if (!validator.isEmail(regData.email)) {
+            return setEmailError({ name: "Invalid email", status: true})
+        } 
+
+        if (regData.password.length < 6) {
+            return setPasswordError({ name: "Password too short", status: true})
+        }
+
+        dispatch(register(regData))
     }
 
     return (
@@ -129,6 +122,13 @@ export default function RegisterPage() {
                         <Typography component="h1" variant="h5">
                             Sign up
                         </Typography>
+
+                        { errorMessage.status && 
+                            <Alert severity="error" className={classes.alert}>
+                                <AlertTitle>Error</AlertTitle>
+                                <strong>{errorMessage.name}</strong>
+                            </Alert>
+                        }
 
                         <form onSubmit={handleSubmitRegistration} className={classes.form}>
                             <Grid container spacing={2}>
@@ -144,6 +144,7 @@ export default function RegisterPage() {
                                     value={usernameToAdd}
                                     onChange={(e) => setUsername(e.target.value)}
                                     label="Username"
+                                    autoComplete="off"
                                     autoFocus
                                 />
                                 </Grid>
@@ -160,7 +161,8 @@ export default function RegisterPage() {
                                     onChange={(e) => setEmail(e.target.value)}
                                     label="Email Address"
                                     name="email"
-                                    autoComplete="email"
+                                    // autoComplete="email"
+                                    autoComplete="off"
                                 />
                                 </Grid>
 
@@ -177,7 +179,8 @@ export default function RegisterPage() {
                                     label="Password"
                                     type="password"
                                     id="password"
-                                    autoComplete="current-password"
+                                    // autoComplete="current-password"
+                                    autoComplete="off"
                                 />
                                 </Grid>
 

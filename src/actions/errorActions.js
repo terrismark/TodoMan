@@ -1,8 +1,8 @@
-import { GET_ERRORS, CLEAR_ERRORS } from '../actions/types'
+import { SET_ERRORS, CLEAR_ERRORS } from '../actions/types'
 
 export const returnErrors = (msg, status, name) => {
     return {
-        type: GET_ERRORS,
+        type: SET_ERRORS,
         payload: { msg, status, name }
     }
 }

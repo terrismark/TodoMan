@@ -14,8 +14,9 @@ import {
 import validator from 'validator'
 import { amber } from '@material-ui/core/colors';
 import { useDispatch, useSelector } from 'react-redux'
-import { login, setLoadingUser } from '../../actions/authActions'
+import { login } from '../../actions/authActions'
 import { Link, useHistory } from 'react-router-dom';
+import { Alert, AlertTitle } from '@material-ui/lab';
 
 const darkTheme = createMuiTheme({
   palette: {
@@ -46,6 +47,10 @@ const useStyles = makeStyles((theme) => ({
     },
     container: {
         padding: theme.spacing(0, 4)
+    },
+    alert: {
+        width: '100%',
+        marginTop: theme.spacing(4)
     }
 }))
 
@@ -53,50 +58,44 @@ export default function LoginPage() {
     const classes = useStyles()
     const dispatch = useDispatch()
     const error = useSelector(state => state.error)
-    const [ errorMessage, setErrorMessage ] = useState(null)
+    const [ errorMessage, setErrorMessage ] = useState({ name: "", status: false})
 
+    const authed = useSelector(state => state.auth.isAuthed)
     const history = useHistory()
 
     useEffect(() => {
-        if (error.name === "LOGIN_FAIL") {
-            setErrorMessage(error.msg.message)
-        } else {
-            setErrorMessage(null)
+        if (authed) {
+            setEmail("")
+            setPassword("")
+            history.push("/")
+
+        } else if (error.name === "LOGIN_FAIL") {
+            setErrorMessage({ name: error.msg.message, status: true })
         }
-    }, [error])
+
+    }, [error, authed, history])
 
     const [ emailError, setEmailError ] = useState({ name: "", status: false })
 
     const [ emailToAdd, setEmail ] = useState("")
     const [ passwordToAdd, setPassword ] = useState("")
 
-    function handleSubmitLogin(e) {
-        e.preventDefault()
-
-        if (!validator.isEmail(emailToAdd)) {
-            setEmailError({ name: "Invalid email", status: true})
-            return
-        } 
-
-        setEmailError({ name: "", status: false})
+    function handleSubmitLogin(event) {
+        event.preventDefault()
 
         const logData = {
             email: emailToAdd,
             password: passwordToAdd
         }
 
-        dispatch(login(logData))
-        dispatch(setLoadingUser())
+        //  clearing prev errors
+        setEmailError({ name: "", status: false})
 
-        if (errorMessage) {
-            alert(errorMessage)
-            return
+        if (!validator.isEmail(logData.email)) {
+           return setEmailError({ name: "Invalid email", status: true})
         }
 
-        setEmail("")
-        setPassword("")
-
-        history.push("/")
+        dispatch(login(logData))
     }
 
     return (
@@ -107,6 +106,13 @@ export default function LoginPage() {
                         <Typography component="h1" variant="h5">
                             Sign in
                         </Typography>
+
+                        { errorMessage.status && 
+                            <Alert severity="error" className={classes.alert}>
+                                <AlertTitle>Error</AlertTitle>
+                                <strong>{errorMessage.name}</strong>
+                            </Alert>
+                        }
 
                         <form onSubmit={handleSubmitLogin} className={classes.form}>
                             <Grid container spacing={2}>
@@ -122,7 +128,8 @@ export default function LoginPage() {
                                     onChange={(e) => setEmail(e.target.value)}
                                     label="Email Address"
                                     name="email"
-                                    autoComplete="email"
+                                    // autoComplete="email"
+                                    autoComplete="off"
                                     autoFocus
                                 />
                                 </Grid>
@@ -138,7 +145,8 @@ export default function LoginPage() {
                                     onChange={(e) => setPassword(e.target.value)}
                                     type="password"
                                     id="password"
-                                    autoComplete="current-password"
+                                    // autoComplete="current-password"
+                                    autoComplete="off"
                                 />
                                 </Grid>
 

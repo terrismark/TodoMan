@@ -12,9 +12,8 @@ export const DELETE_LIST = 'DELETE_LIST'
 export const LOADING_LISTS = 'LOADING_LISTS'
 
 // errors actions 
-export const GET_ERRORS = 'GET_ERRORS'
+export const SET_ERRORS = 'SET_ERRORS'
 export const CLEAR_ERRORS = 'CLEAR_ERRORS'
-
 
 // auth actions
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'

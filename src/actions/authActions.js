@@ -38,7 +38,6 @@ export const loadUser = () => (dispatch, getState) => {
             payload: res.data
         }))
         .catch(error => {
-            dispatch(clearErrors())
             dispatch(returnErrors(error.response.data, error.response.status, "AUTH_ERROR"))
             dispatch({
                 type: AUTH_ERROR
@@ -63,7 +62,6 @@ export const register = ({ username, email, password }) => dispatch => {
             payload: res.data
         })})
         .catch(error => {
-            dispatch(clearErrors())
             dispatch(returnErrors(error.response.data, error.response.status, "REGISTER_FAIL" ))
             dispatch({
                 type: REGISTER_FAIL
@@ -88,7 +86,6 @@ export const login = ({ email, password }) => dispatch => {
             payload: res.data
         })})
         .catch(error => {
-            dispatch(clearErrors())
             dispatch(returnErrors(error.response.data, error.response.status, "LOGIN_FAIL"))
             dispatch({
                 type: LOGIN_FAIL

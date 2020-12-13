@@ -17,17 +17,20 @@ import LoadingPage from './components/Home/LoadingPage'
 import { useSelector, useDispatch } from 'react-redux'
 import { getLists } from './actions/listsActions';
 
-function App() {
+export default function App() {
   const dispatch = useDispatch()
   const auth = useSelector(state => state.auth)
   const [ authed, setAuthed ] = useState(false)
   const [ loading, setLoading ] = useState(true)
+  const [ username, setUsername ] = useState(null)
+
   const lists = useSelector(state => state.lists.items)
 
   useEffect(() => {
     if (auth.isAuthed) {
       dispatch(getLists())
       setAuthed(auth.isAuthed)
+      setUsername(auth.user.username)
     } 
     setLoading(auth.isLoadingUser)
   }, [dispatch, auth])
@@ -41,7 +44,7 @@ function App() {
                 {loading ? 
                   <LoadingPage /> 
                   :
-                  <HomePageAuthed lists={lists} /> 
+                  <HomePageAuthed lists={lists} username={username}/> 
                 }
               </Route>
 
@@ -89,5 +92,3 @@ function App() {
       </Router>
   )
 }
-
-export default App;

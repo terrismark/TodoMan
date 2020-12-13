@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AddBox } from '@material-ui/icons'
 import { createMuiTheme } from '@material-ui/core/styles';
 import { 
@@ -22,6 +22,7 @@ import { addTodo } from '../../actions/todosActions';
 import NavBar from './NavBar'
 import { amber } from '@material-ui/core/colors';
 import Todos from '../Todos/Todos';
+import { Alert, AlertTitle } from '@material-ui/lab';
 
 const darkTheme = createMuiTheme({
   palette: {
@@ -45,21 +46,31 @@ const useStyles = makeStyles((theme) => ({
     },
     listInput: {
         minWidth: 60,
-        maxWidth: 180,
+        maxWidth: 160,
         marginRight: 0
+    },
+    secondatyBtn: {
+        right: 0
+    },
+    alert: {
+        maxWidth: 340,
+        marginTop: theme.spacing(4),
+        marginBottom: theme.spacing(4)
     }
 }))
 
 export default function TodoPage({ todos, listId, name }) {
-    const auth = {
-        name: "User 0"
-    }
-
-    const classes = useStyles();
+    const classes = useStyles()
     const dispatch = useDispatch()
     const loading = useSelector(state => state.lists.loadingTodos)
 
+    const [ errorMessage, setErrorMessage ] = useState({ name: "", status: false})
+
     const [ newItemToAdd, setNewItem ] = useState("") 
+
+    useEffect(() => {
+        setErrorMessage({ name: "", status: false})
+    }, [newItemToAdd])
 
     function handleAddTodo(e) {
         e.preventDefault()
@@ -74,25 +85,35 @@ export default function TodoPage({ todos, listId, name }) {
         }
 
         if (checkIfItemIsIn(newItemToAdd, todos)) {
-            alert("You already have the same task. Try another variant!")
-            return
+            return setErrorMessage({ name: "You already have the same task. Try another variant!", status: true})
         }
 
         if (newItemToAdd.length > 0) {
             dispatch(addTodo(newItemToAdd, listId))
         }
+
         setNewItem("")
+        setErrorMessage({ name: "", status: false})
     }
 
     return (
         <ThemeProvider theme={darkTheme}>
             <CssBaseline />
                 <Container maxWidth="md"  className={classes.container}>
-                    <NavBar auth={auth}/>
+                    <NavBar />
                     <div container justify="center" className={classes.mainContainer}>
                         <Typography component="h4" variant="h4" align="center" color="primary">
                             {name[0].toUpperCase() + name.slice(1)}
                         </Typography>
+                    </div>
+
+                    <div container align="center" justify="center">
+                        { errorMessage.status && 
+                            <Alert align="left" severity="warning" className={classes.alert}>
+                                <AlertTitle>Error</AlertTitle>
+                                <strong>{errorMessage.name}</strong>
+                            </Alert>
+                        }
                     </div>
                     
                     <Grid container alignContent="center" direction="column">
@@ -120,7 +141,12 @@ export default function TodoPage({ todos, listId, name }) {
                         </Grid>
 
                         <Grid item className={classes.gridItem1}>
-                            <Todos todos={todos} listId={listId} loading={loading}/>
+                            <Todos 
+                                todos={todos} 
+                                listId={listId} 
+                                loading={loading} 
+                                setErrorMessage={setErrorMessage} 
+                            />
                         </Grid>
                     </Grid>
                 </Container>

@@ -36,7 +36,7 @@ const useStyles = makeStyles({
     }
 })
 
-export default function TodoItem({ id, value, completed, todos, date, listId }) {
+export default function TodoItem({ id, value, completed, todos, date, listId, setErrorMessage }) {
     const classes = useStyles()
     const dispatch = useDispatch()
     const [ editMode, setEditMode ] = useState(false)
@@ -46,6 +46,10 @@ export default function TodoItem({ id, value, completed, todos, date, listId }) 
     useEffect(() => {
         setNewItem(value)
     }, [value])
+
+    useEffect(() => {
+        setErrorMessage({ name: "", status: false})
+    }, [newItemToAdd, setErrorMessage])
 
     function handleEditItem(e) {
         e.preventDefault()
@@ -60,8 +64,7 @@ export default function TodoItem({ id, value, completed, todos, date, listId }) 
         }
 
         if (checkIfItemIsIn(newItemToAdd, todos)) {
-            alert("You already have the same task. Try another variant!")
-            return
+            return setErrorMessage({ name: "You already have the same task. Try another variant!", status: true })
         }
 
         if (newItemToAdd.length > 0) {

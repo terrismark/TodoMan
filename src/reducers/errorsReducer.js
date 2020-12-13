@@ -1,4 +1,4 @@
-import { GET_ERRORS, CLEAR_ERRORS } from '../actions/types'
+import { SET_ERRORS, CLEAR_ERRORS } from '../actions/types'
 
 const error = {
     msg: {},
@@ -6,10 +6,10 @@ const error = {
     name: null
 }
 
-export default function todoReducer(state = error, action) {
+export default function errorsReducer(state = error, action) {
     switch (action.type) {
 
-        case GET_ERRORS:
+        case SET_ERRORS:
             return ({
                 msg: action.payload.msg,
                 status: action.payload.status,

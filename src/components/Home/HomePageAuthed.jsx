@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { 
     Button, 
@@ -24,6 +24,7 @@ import Footer from './Footer'
 import TodoLists from '../Todos/TodoLists'
 import { amber } from '@material-ui/core/colors';
 import { AddBox } from '@material-ui/icons';
+import { Alert, AlertTitle } from '@material-ui/lab';
 
 
 const darkTheme = createMuiTheme({
@@ -64,25 +65,30 @@ const useStyles = makeStyles((theme) => ({
         width: 160,
         marginRight: 40
     },
+    alert: {
+        maxWidth: 340,
+        marginTop: theme.spacing(4)
+    }
 }))
 
-export default function HomePageAuthed({ lists }) {
-    const auth = {
-        name: "User 0"
-    }
-
+export default function HomePageAuthed({ lists, username }) {
     const classes = useStyles()
     const dispatch = useDispatch()
     const loading = useSelector(state => state.lists.loadingLists)
 
+    const [ errorMessage, setErrorMessage ] = useState({ name: "", status: false})
+
     const [ newItemToAdd, setNewItem ] = useState("") 
+
+    useEffect(() => {
+        setErrorMessage({ name: "", status: false})
+    }, [newItemToAdd])
 
     function handleAddList(e) {
         e.preventDefault()
 
         if (newItemToAdd.length > 16) {
-            alert("Two long name. Try another variant!")
-            return
+            return setErrorMessage({ name: "Two long name. Try another variant!", status: true})
         }
 
         function checkIfItemIsIn(item, list) {
@@ -95,31 +101,33 @@ export default function HomePageAuthed({ lists }) {
         }
 
         if (checkIfItemIsIn(newItemToAdd, lists)) {
-            alert("You already have a list with the same name. Try another variant!")
-            return
+            return setErrorMessage({ name: "You already have a list with the same name. Try another variant!", status: true})
         }
 
         if (newItemToAdd.length > 0) {
             dispatch(addList(newItemToAdd))
         }
+        
         setNewItem("")
+        setErrorMessage({ name: "", status: false})
+        
     }
 
     return (
         <ThemeProvider theme={darkTheme}>
             <CssBaseline />
             <Container maxWidth="md">
-                    <NavBar auth={auth}/>
+                    <NavBar/>
 
-                    {false && <div container justify="center" className={classes.mainContainer}>
-                        <Typography component="h3" variant="h3" align="center" color="textPrimary" gutterBottom className={classes.MainText}>
-                            Welcome back!
+                    <div container justify="center" className={classes.mainContainer}>
+                        <Typography component="h4" variant="h4" align="center" color="textPrimary" gutterBottom className={classes.MainText}>
+                            Welcome back, {username}!
                         </Typography>
 
-                        <Typography variant="h6" align="center" color="textSecondary" paragraph className={classes.pText}>
+                        <Typography variant="body1" align="center" color="textSecondary" paragraph className={classes.pText}>
                             You can choose lists you have already created or create a new one
                         </Typography>
-                    </div>}
+                    </div>
 
                     <Grid container justify="center" className={classes.main} alignContent="center" direction="column"> 
                         <Typography component="h4" variant="h4" align="center" color="primary" gutterBottom>
@@ -128,6 +136,15 @@ export default function HomePageAuthed({ lists }) {
 
                         <TodoLists lists={lists} loading={loading}/>
                         <Divider />
+
+                        <Grid item align="center">
+                            { errorMessage.status && 
+                                <Alert align="left" severity="warning" className={classes.alert}>
+                                    <AlertTitle>Error</AlertTitle>
+                                    <strong>{errorMessage.name}</strong>
+                                </Alert>
+                            }
+                        </Grid>
 
                         <Grid container alignContent="center" direction="column">
                             <Grid item className={classes.GridStyles} align="center">

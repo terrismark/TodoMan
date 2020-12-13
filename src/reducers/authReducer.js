@@ -16,7 +16,7 @@ const auth = {
     user: null
 }
 
-export default function todoReducer(state = auth, action) {
+export default function authReducer(state = auth, action) {
     switch (action.type) {
 
         case USER_LOADING:

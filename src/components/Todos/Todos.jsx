@@ -20,7 +20,7 @@ const useStyles = makeStyles({
   },
 })
 
-export default function Todos({ todos, loading, listId }) {
+export default function Todos({ todos, loading, listId, setErrorMessage }) {
   const classes = useStyles();
 
   return (
@@ -36,7 +36,9 @@ export default function Todos({ todos, loading, listId }) {
                   id={value._id} 
                   value={value.name} 
                   date={value.date} 
-                  todos={todos}/>
+                  todos={todos}
+                  setErrorMessage={setErrorMessage}
+                />
             )
         }) :
         <ListItem>

@@ -34,10 +34,10 @@ export const addList = (list) => (dispatch, getState) => {
         })})
 }
 
-export const deleteList = (listId) => dispatch => {
+export const deleteList = (listId) => (dispatch, getState) => {
     dispatch(setListsLoading())
     
-    axios.delete(API_URL + '/api/lists/' + listId)
+    axios.delete(API_URL + '/api/lists/' + listId, tokenConfig(getState))
         .then(() => {
             dispatch({
                 type: DELETE_LIST,

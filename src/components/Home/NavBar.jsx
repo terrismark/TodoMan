@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createRef } from 'react';
 import { makeStyles} from '@material-ui/core/styles';
 import { AccountBox } from '@material-ui/icons'
 import { 
@@ -42,6 +42,8 @@ export default function NavBar() {
   const [ isAuthed, setAuthed ] = useState(false)
   const [ username, setUsername ] = useState(null)
 
+  const iconRef = createRef()
+
   useEffect(() => {
     if (auth.isAuthed) {
       setAuthed(true)
@@ -52,6 +54,7 @@ export default function NavBar() {
   function handleLogOut() {
     dispatch(setLoadingUser())
     dispatch(logout())
+    
     window.location.reload()
   }
 
@@ -73,7 +76,7 @@ export default function NavBar() {
                     {username}
                 </Typography>
 
-                <IconButton color="primary" onClick={(e) => setAnchorPopOver(e.currentTarget)}>
+                <IconButton color="primary" ref={iconRef} onClick={() => setAnchorPopOver(iconRef.current)}>
                     <AccountBox fontSize="large"/>
                 </IconButton>
 

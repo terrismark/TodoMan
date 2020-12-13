@@ -31,7 +31,7 @@ export default function Footer() {
 
         <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
             Make todos.<br /> 
-            Quick, Nice and Great!
+            Very quick, very simple!
         </Typography>
 
         <Divider className={classes.divider}/>
