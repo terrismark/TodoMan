@@ -122,7 +122,7 @@ export default function LoginPage() {
                             </Alert>
                         }
 
-                        <form onSubmit={handleSubmitLogin} className={classes.form}>
+                        <form name="login-form" data-netlify="true" onSubmit={handleSubmitLogin} className={classes.form}>
                             <Grid container spacing={2}>
                                 <Grid item xs={12}>
                                 <TextField

@@ -140,7 +140,7 @@ export default function RegisterPage() {
                             </Alert>
                         }
 
-                        <form onSubmit={handleSubmitRegistration} className={classes.form}>
+                        <form name="register-form" data-netlify="true" onSubmit={handleSubmitRegistration} className={classes.form}>
                             <Grid container spacing={2}>
                                 <Grid item xs={12}>
                                 <TextField
