@@ -8,9 +8,10 @@ import {
     ListItemText,
     Typography,
 } from '@material-ui/core';
+
 import { Delete } from '@material-ui/icons';
 import { useDispatch } from 'react-redux'
-import { deleteList } from '../../actions/listsActions';
+import { deleteList } from '../../flux/actions/listsActions';
 import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({

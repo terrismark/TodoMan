@@ -15,15 +15,18 @@ import PageNotFound from './components/ErrorPages/PageNotFound'
 import LoadingPage from './components/Home/LoadingPage'
 
 import { useSelector, useDispatch } from 'react-redux'
-import { getLists } from './actions/listsActions';
+import { getLists } from './flux/actions/listsActions';
 
 export default function App() {
   const dispatch = useDispatch()
+
+  // user
   const auth = useSelector(state => state.auth)
   const [ authed, setAuthed ] = useState(false)
   const [ loading, setLoading ] = useState(true)
   const [ username, setUsername ] = useState(null)
 
+  // lists
   const lists = useSelector(state => state.lists.items)
 
   useEffect(() => {

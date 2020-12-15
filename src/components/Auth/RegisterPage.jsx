@@ -11,13 +11,13 @@ import {
     ThemeProvider, 
     Typography 
 } from '@material-ui/core';
+import { Alert, AlertTitle } from '@material-ui/lab';
 import { amber } from '@material-ui/core/colors';
 
 import validator from 'validator'
 import { useDispatch, useSelector } from 'react-redux'
-import { register } from '../../actions/authActions'
+import { register } from '../../flux/actions/authActions'
 import { useHistory } from 'react-router-dom';
-import { Alert, AlertTitle } from '@material-ui/lab';
 
 const darkTheme = createMuiTheme({
   palette: {
@@ -140,7 +140,7 @@ export default function RegisterPage() {
                             </Alert>
                         }
 
-                        <form name="register-form" netlify onSubmit={handleSubmitRegistration} className={classes.form}>
+                        <form name="register-form" onSubmit={handleSubmitRegistration} className={classes.form}>
                             <Grid container spacing={2}>
                                 <Grid item xs={12}>
                                 <TextField

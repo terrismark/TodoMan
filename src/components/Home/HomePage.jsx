@@ -14,11 +14,10 @@ import {
     ListItemIcon,
 } from '@material-ui/core';
 import { Battery20, Visibility, CenterFocusStrong, Flare  } from '@material-ui/icons'
-
+import { amber } from '@material-ui/core/colors';
 
 import NavBar from './NavBar'
 import Footer from './Footer'
-import { amber } from '@material-ui/core/colors';
 import { Link } from 'react-router-dom';
 
 const darkTheme = createMuiTheme({

@@ -1,4 +1,4 @@
-import { SET_ERRORS, CLEAR_ERRORS } from '../actions/types'
+import { SET_ERRORS, CLEAR_ERRORS } from './types'
 
 export const returnErrors = (msg, status, name) => {
     return {

@@ -15,17 +15,16 @@ import {
     ThemeProvider, 
     Typography 
 } from '@material-ui/core';
-
-import { useSelector, useDispatch } from 'react-redux'
-import { addList } from '../../actions/listsActions';
-
-import NavBar from './NavBar'
-import Footer from './Footer'
-import TodoLists from '../Todos/TodoLists'
 import { amber } from '@material-ui/core/colors';
 import { AddBox } from '@material-ui/icons';
 import { Alert, AlertTitle } from '@material-ui/lab';
 
+import { useSelector, useDispatch } from 'react-redux'
+import { addList } from '../../flux/actions/listsActions';
+
+import NavBar from './NavBar'
+import Footer from './Footer'
+import TodoLists from '../Todos/TodoLists'
 
 const darkTheme = createMuiTheme({
   palette: {

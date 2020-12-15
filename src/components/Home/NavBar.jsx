@@ -9,9 +9,10 @@ import {
     Popover,
     Button,
 } from '@material-ui/core';
+
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
-import { logout, setLoadingUser } from '../../actions/authActions'
+import { logout, setLoadingUser } from '../../flux/actions/authActions'
 
 const useStyles = makeStyles((theme) => ({
   root: {

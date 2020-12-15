@@ -1,4 +1,7 @@
-import { SET_ERRORS, CLEAR_ERRORS } from '../actions/types'
+import { 
+    SET_ERRORS, 
+    CLEAR_ERRORS 
+} from '../actions/types'
 
 const error = {
     msg: {},

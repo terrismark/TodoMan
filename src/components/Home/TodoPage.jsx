@@ -15,14 +15,15 @@ import {
     ThemeProvider, 
     Typography 
 } from '@material-ui/core';
+import { amber } from '@material-ui/core/colors';
+import { Alert, AlertTitle } from '@material-ui/lab';
 
 import { useSelector, useDispatch } from 'react-redux'
-import { addTodo } from '../../actions/todosActions';
+import { addTodo } from '../../flux/actions/todosActions';
 
 import NavBar from './NavBar'
-import { amber } from '@material-ui/core/colors';
 import Todos from '../Todos/Todos';
-import { Alert, AlertTitle } from '@material-ui/lab';
+
 
 const darkTheme = createMuiTheme({
   palette: {

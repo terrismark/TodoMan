@@ -11,12 +11,13 @@ import {
     ThemeProvider, 
     Typography 
 } from '@material-ui/core';
-import validator from 'validator'
-import { amber } from '@material-ui/core/colors';
-import { useDispatch, useSelector } from 'react-redux'
-import { login } from '../../actions/authActions'
-import { useHistory } from 'react-router-dom';
 import { Alert, AlertTitle } from '@material-ui/lab';
+import { amber } from '@material-ui/core/colors';
+
+import validator from 'validator'
+import { useDispatch, useSelector } from 'react-redux'
+import { login } from '../../flux/actions/authActions'
+import { useHistory } from 'react-router-dom';
 
 const darkTheme = createMuiTheme({
   palette: {
@@ -122,7 +123,7 @@ export default function LoginPage() {
                             </Alert>
                         }
 
-                        <form name="login-form" netlify onSubmit={handleSubmitLogin} className={classes.form}>
+                        <form name="login-form" onSubmit={handleSubmitLogin} className={classes.form}>
                             <Grid container spacing={2}>
                                 <Grid item xs={12}>
                                 <TextField

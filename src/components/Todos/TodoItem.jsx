@@ -10,8 +10,9 @@ import {
   ListItem,
   TextField,
 } from '@material-ui/core';
+
 import { useDispatch } from 'react-redux'
-import { completeTodo, deleteTodo, updateTodo } from '../../actions/todosActions';
+import { completeTodo, deleteTodo, updateTodo } from '../../flux/actions/todosActions';
 
 const useStyles = makeStyles({
     secondaryButton: {
