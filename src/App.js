@@ -51,9 +51,9 @@ export default function App() {
                 }
               </Route>
 
-              <Route exact path="/notfound">
+              {/* <Route exact path="/notfound">
                 <PageNotFound />
-              </Route>
+              </Route> */}
               
               {lists.map(list => {
                 return (
@@ -63,7 +63,7 @@ export default function App() {
                 )
               })}
 
-              <Redirect to="/notfound" />
+              <Redirect to="/" />
 
           </Switch> 
           :
