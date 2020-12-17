@@ -117,7 +117,7 @@ export default function TodoPage({ todos, listId, name }) {
                         }
                     </div>
                     
-                    <Grid container alignContent="center" ustify="center" direction="column">
+                    <Grid container alignContent="center" justify="center" direction="column">
                         <Grid item align="center" className={classes.gridItem2}>
                             <List className={classes.listItem}>
                                 <form autoсomplete="off" onSubmit={handleAddTodo}>
@@ -132,7 +132,11 @@ export default function TodoPage({ todos, listId, name }) {
                                             />
                                         </ListItemText>
                                         <ListItemSecondaryAction>
-                                            <Button type="submit" size="large" color="primary" disabled={newItemToAdd.length === 0}>
+                                            <Button 
+                                                type="submit" 
+                                                size="large" 
+                                                color="primary" 
+                                                disabled={newItemToAdd.length === 0 || loading}>
                                                 <AddBox fontSize="large"/>
                                             </Button>
                                         </ListItemSecondaryAction>

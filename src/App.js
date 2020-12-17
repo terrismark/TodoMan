@@ -28,12 +28,14 @@ export default function App() {
 
   // lists
   const lists = useSelector(state => state.lists.items)
+  const [ listCount, setListCount ] = useState(0)
 
   useEffect(() => {
     if (auth.isAuthed) {
-      dispatch(getLists())
       setAuthed(auth.isAuthed)
       setUsername(auth.user.username)
+      dispatch(getLists())
+      setListCount(auth.user.listCount)
     } 
     setLoading(auth.isLoadingUser)
   }, [dispatch, auth])
@@ -58,7 +60,7 @@ export default function App() {
               {lists.map(list => {
                 return (
                   <Route exact key={list._id} path={`/${list.name}`}>
-                    <TodoPage name={list.name} todos={list.todos} listId={list._id} />
+                    <TodoPage name={list.name} listCount={listCount} todos={list.todos} listId={list._id} />
                   </Route>
                 )
               })}

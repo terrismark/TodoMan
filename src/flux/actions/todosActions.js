@@ -4,7 +4,8 @@ import {
     DELETE_TODO, 
     UPDATE_TODO, 
     COMPLETE_TODO, 
-    LOADING_TODOS 
+    LOADING_TODOS,
+    STOP_LOADING_TODOS
 } from './types'
 import { API_URL } from '../api'
 
@@ -20,12 +21,15 @@ export const addTodo = (todo, listId) => (dispatch, getState) => {
             dispatch({
                 type: ADD_TODO,
                 payload: { todos: res.data, listId }
-        })})
+            })
+        })
+        .catch(e => {
+            dispatch(stopTodosLoading())
+        })
 }
 
 export const deleteTodo = (todoId, listId) => (dispatch, getState) => {
-    dispatch(setTodosLoading())
-
+    
     const obj = { 
         id: todoId, 
         type: "delete" 
@@ -76,5 +80,11 @@ export const completeTodo = (todoId, listId) => (dispatch, getState) => {
 export const setTodosLoading = () => {
     return {
         type: LOADING_TODOS
+    }
+}
+
+export const stopTodosLoading = () => {
+    return {
+        type: STOP_LOADING_TODOS
     }
 }

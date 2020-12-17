@@ -8,7 +8,7 @@ import {
   Checkbox, 
   IconButton, 
   ListItem,
-  TextField,
+  TextField
 } from '@material-ui/core';
 
 import { useDispatch } from 'react-redux'
@@ -37,7 +37,7 @@ const useStyles = makeStyles({
     }
 })
 
-export default function TodoItem({ id, value, completed, todos, date, listId, setErrorMessage }) {
+export default function TodoItem({ id, value, completed, todos, date, listId, setErrorMessage, loading }) {
     const classes = useStyles()
     const dispatch = useDispatch()
     const [ editMode, setEditMode ] = useState(false)
@@ -79,69 +79,81 @@ export default function TodoItem({ id, value, completed, todos, date, listId, se
     return (
         <>
             { !editMode ?
-            <ListItem key={id}>
-               
-                <ListItemIcon>
-                    <Checkbox
-                        edge="start"
-                        color="primary"
-                        checked={completed}
-                        onChange={() => dispatch(completeTodo(id, listId))}
-                        disableRipple
-                    />
-                </ListItemIcon>
+                <ListItem key={id}>
+                
+                    <ListItemIcon>
+                        <Checkbox
+                            edge="start"
+                            color="primary"
+                            checked={completed}
+                            onChange={() => dispatch(completeTodo(id, listId))}
+                            disableRipple
+                        />
+                    </ListItemIcon>
 
-                <ListItemText 
-                    primary={value} 
-                    secondary={"From " + date.slice(8, 10) + "/" + date.slice(5, 7)} 
-                    className={completed ? classes.completedItem : classes.textItem}
-                /> 
+                    <ListItemText 
+                        primary={value} 
+                        secondary={"From " + date.slice(8, 10) + "/" + date.slice(5, 7)} 
+                        className={completed ? classes.completedItem : classes.textItem}
+                    /> 
 
-                <ListItemSecondaryAction>
-                    {!completed && 
-                    <IconButton onClick={() => setEditMode(!editMode)} edge="end" className={classes.secondaryButton}>
-                        <Edit />
-                    </IconButton>}
-                    
-                    <IconButton onClick={() => dispatch(deleteTodo(id, listId))} 
-                        edge="end" 
-                        color="primary">
-                        <Delete />
-                    </IconButton>
-                </ListItemSecondaryAction>
-            </ListItem> :
-            <ListItem key={id}>
+                    <ListItemSecondaryAction>
+                        {!completed && 
+                        <IconButton 
+                            onClick={() => setEditMode(!editMode)} 
+                            edge="end" 
+                            className={classes.secondaryButton}
+                        >
+                            <Edit />
+                        </IconButton>}
+                        
+                        <IconButton 
+                            disabled={loading}
+                            onClick={() => {
+                                dispatch(deleteTodo(id, listId))
+                            }} 
+                            edge="end" 
+                            color="primary"
+                            >
+                            <Delete />
+                        </IconButton>
+                    </ListItemSecondaryAction>
+                </ListItem>
+            
+            :
+            
+                <ListItem key={id}>
 
-            <ListItemIcon className={classes.cancelEdit}>
-                <IconButton onClick={() => setEditMode(!editMode)}>
-                    <Close
-                        edge="start"
-                        color="default"
-                    />
-                </IconButton>
-            </ListItemIcon> 
+                    <ListItemIcon className={classes.cancelEdit}>
+                        <IconButton onClick={() => setEditMode(!editMode)}>
+                            <Close
+                                edge="start"
+                                color="default"
+                            />
+                        </IconButton>
+                    </ListItemIcon> 
 
-            <form onSubmit={handleEditItem}>
-                <ListItemText className={classes.editTextItem}>
-                    <TextField
-                        value={newItemToAdd}
-                        onChange={(e) => setNewItem(e.target.value)}
-                        type="text"
-                    />
-                </ListItemText>
+                    <form onSubmit={handleEditItem}>
+                        <ListItemText className={classes.editTextItem}>
+                            <TextField
+                                value={newItemToAdd}
+                                onChange={(e) => setNewItem(e.target.value)}
+                                type="text"
+                            />
+                        </ListItemText>
 
-                <ListItemSecondaryAction>
-                    <IconButton 
-                    type="submit" 
-                    edge="end" 
-                    color="primary" 
-                    disabled={newItemToAdd.length === 0 || newItemToAdd === value}
-                    >
-                        <Done />
-                    </IconButton>
-                </ListItemSecondaryAction>
-            </form>
-        </ListItem> }
+                        <ListItemSecondaryAction>
+                            <IconButton 
+                            type="submit" 
+                            edge="end" 
+                            color="primary" 
+                            disabled={newItemToAdd.length === 0 || newItemToAdd === value}
+                            >
+                                <Done />
+                            </IconButton>
+                        </ListItemSecondaryAction>
+                    </form>
+                </ListItem> }
     </>
     )
 }

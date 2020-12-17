@@ -84,6 +84,11 @@ export default function RegisterPage() {
     const [ usernameToAdd, setUsername ] = useState("")
     const [ emailToAdd, setEmail ] = useState("")
     const [ passwordToAdd, setPassword ] = useState("")
+    const [ passwordToMatch, setPasswordToMatch ] = useState("")
+
+    useEffect(() => {
+        setErrorMessage({ name: "", status: false})
+    }, [passwordToMatch])
 
     useEffect(() => {
         if (!usernameToAdd && !emailToAdd && !passwordToAdd) {
@@ -102,23 +107,27 @@ export default function RegisterPage() {
         }
 
         //  clearing prev errors
-        setUsernameError({ name: "", status: false})
-        setEmailError({ name: "", status: false})
-        setPasswordError({ name: "", status: false}) 
+        setUsernameError({ name: "", status: false })
+        setEmailError({ name: "", status: false })
+        setPasswordError({ name: "", status: false }) 
 
         if (regData.username.length > 12) {
-            setErrorMessage({ name: "", status: false})
-            return setUsernameError({ name: "Too long username", status: true})
+            setErrorMessage({ name: "", status: false })
+            return setUsernameError({ name: "Too long username", status: true })
         } 
 
         if (!validator.isEmail(regData.email)) {
-            setErrorMessage({ name: "", status: false})
-            return setEmailError({ name: "Invalid email", status: true})
+            setErrorMessage({ name: "", status: false })
+            return setEmailError({ name: "Invalid email", status: true })
         } 
 
         if (regData.password.length < 6) {
-            setErrorMessage({ name: "", status: false})
-            return setPasswordError({ name: "Password too short", status: true})
+            setErrorMessage({ name: "", status: false })
+            return setPasswordError({ name: "Password too short", status: true })
+        }
+
+        if (regData.password !== passwordToMatch) {
+            return setErrorMessage({ name: "Passwords don't match", status: true })
         }
 
         dispatch(register(regData))
@@ -147,7 +156,7 @@ export default function RegisterPage() {
                                     error={usernameError.status}
                                     name="username"
                                     variant="outlined"
-                                    helperText={usernameError.name || "max length: 12 characters"}
+                                    helperText={usernameError.name || "Max length: 12 characters"}
                                     required
                                     fullWidth
                                     value={usernameToAdd}
@@ -168,7 +177,6 @@ export default function RegisterPage() {
                                     value={emailToAdd}
                                     onChange={(e) => setEmail(e.target.value)}
                                     label="E m a i l"
-                                    // autoComplete="email"
                                     autoComplete="off"
                                 />
                                 </Grid>
@@ -179,12 +187,25 @@ export default function RegisterPage() {
                                     variant="outlined"
                                     required
                                     fullWidth
-                                    helperText={passwordError.name || "min length: 6 characters"}
+                                    helperText={passwordError.name || "Min length: 6 characters"}
                                     value={passwordToAdd}
                                     onChange={(e) => setPassword(e.target.value)}
                                     label="P a s s w o r d"
                                     type="password"
-                                    // autoComplete="current-password"
+                                    autoComplete="off"
+                                />
+                                </Grid>
+
+                                <Grid item xs={12}>
+                                <TextField
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    helperText="Confirm your password"
+                                    value={passwordToMatch}
+                                    onChange={(e) => setPasswordToMatch(e.target.value)}
+                                    label="C o n f i r m"
+                                    type="password"
                                     autoComplete="off"
                                 />
                                 </Grid>
@@ -197,7 +218,7 @@ export default function RegisterPage() {
                                         variant="contained"
                                         color="primary"
                                         className={classes.submit}
-                                        disabled={ !usernameToAdd || !emailToAdd || !passwordToAdd}
+                                        disabled={ !usernameToAdd || !emailToAdd || !passwordToAdd || !passwordToMatch}
                                     >
                                         Sign Up
                                     </Button>

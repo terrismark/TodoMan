@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { 
     IconButton,
@@ -7,6 +7,7 @@ import {
     ListItemSecondaryAction,
     ListItemText,
     Typography,
+    Fade
 } from '@material-ui/core';
 
 import { Delete } from '@material-ui/icons';
@@ -35,33 +36,44 @@ export default function TodoListItem({ id, value, name, todosCount }) {
   const dispatch = useDispatch()
   const history = useHistory()
 
+  const [ show, setShow ] = useState({ timeout: 0, show: false })
+
+  useEffect(() => {
+    setShow({ timeout: 300, show: true })
+  }, []);
+
   return (
-        <List key={id} className={classes.root} >
-                <ListItem button onClick={() => history.push(`/${name}`)}>
-                    <ListItemText 
-                        primary={
-                            <Typography style={{fontSize: "1.5rem"}}>
-                                {value}
-                            </Typography>
-                        } 
-                        className={classes.textItem} 
-                    />
+      <Fade in={show.show} {...{timeout: show.timeout}}>
+          <List key={id} className={classes.root} >
+                  <ListItem button onClick={() => history.push(`/${name}`)}>
+                      <ListItemText 
+                          primary={
+                              <Typography style={{fontSize: "1.5rem"}}>
+                                  {value}
+                              </Typography>
+                          } 
+                          className={classes.textItem} 
+                      />
 
-                    <ListItemSecondaryAction edge="end">
-                        <IconButton onClick={() => dispatch(deleteList(id))}>
-                            <Delete />
-                        </IconButton>
-                    </ListItemSecondaryAction>
-                </ListItem>
+                      <ListItemSecondaryAction edge="end">
+                          <IconButton onClick={() => {
+                            setShow({ timeout: 300, show: false })
+                            dispatch(deleteList(id))
+                          }}
+                          >
+                              <Delete />
+                          </IconButton>
+                      </ListItemSecondaryAction>
+                  </ListItem>
 
-            <ListItem>
-                <Typography variant="body2" component="p">
-                    { todosCount > 0 ? 
-                      `Number of tasks: ${todosCount}` : 
-                      "No tasks yet. Create new!"}
-                </Typography>
-            </ListItem>
-
-      </List>
+              <ListItem>
+                  <Typography variant="body2" component="p">
+                      { todosCount > 0 ? 
+                        `Number of tasks: ${todosCount}` : 
+                        "No tasks yet. Create new!"}
+                  </Typography>
+              </ListItem>
+        </List>
+      </Fade>
   ) 
 }

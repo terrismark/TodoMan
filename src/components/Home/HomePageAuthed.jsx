@@ -165,7 +165,11 @@ export default function HomePageAuthed({ lists, username }) {
                                                 />
                                             </ListItemText>
                                             <ListItemSecondaryAction>
-                                                <Button type="submit" size="large" color="primary" disabled={newItemToAdd.length === 0}>
+                                                <Button 
+                                                    type="submit" 
+                                                    size="large" 
+                                                    color="primary" 
+                                                    disabled={newItemToAdd.length === 0 || loading}>
                                                     <AddBox fontSize="large"/>
                                                 </Button>
                                             </ListItemSecondaryAction>

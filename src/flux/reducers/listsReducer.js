@@ -7,7 +7,9 @@ import {
     DELETE_TODO, 
     UPDATE_TODO, 
     COMPLETE_TODO, 
-    LOADING_TODOS 
+    LOADING_TODOS,
+    STOP_LOADING_TODOS,
+    STOP_LOADING_LISTS 
 } from '../actions/types'
 
 const lists = {
@@ -16,7 +18,7 @@ const lists = {
     loadingTodos: false
 }
 
-export default function todoReducer(state = lists, action) {
+export default function listsReducer(state = lists, action) {
     let prevLists = [...state.items]
     switch (action.type) {
 
@@ -96,11 +98,23 @@ export default function todoReducer(state = lists, action) {
                 ...state,
                 loadingTodos: true
             }
+        
+        case STOP_LOADING_TODOS:
+            return {
+                ...state,
+                loadingTodos: false
+            }
 
         case LOADING_LISTS:
             return {
                 ...state,
                 loadingLists: true
+            }
+
+        case STOP_LOADING_LISTS:
+            return {
+                ...state,
+                loadingLists: false
             }
 
         default:

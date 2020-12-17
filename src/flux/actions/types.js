@@ -5,6 +5,7 @@ export const UPDATE_TODO = 'UPDATE_TODO'
 export const COMPLETE_TODO = 'COMPLETE_TODO'
 
 export const LOADING_TODOS = 'LOADING_TODOS'
+export const STOP_LOADING_TODOS = 'STOP_LOADING_TODOS'
 
 // todo lists actions
 export const GET_LISTS = 'GET_LISTS'
@@ -12,6 +13,7 @@ export const ADD_LIST = 'ADD_LIST'
 export const DELETE_LIST = 'DELETE_LIST'
 
 export const LOADING_LISTS = 'LOADING_LISTS'
+export const STOP_LOADING_LISTS = 'STOP_LOADING_LISTS'
 
 // errors actions 
 export const SET_ERRORS = 'SET_ERRORS'
