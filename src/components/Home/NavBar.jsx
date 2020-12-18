@@ -77,7 +77,7 @@ export default function NavBar() {
                     {username}
                 </Typography>
 
-                <IconButton color="primary" ref={iconRef} onClick={() => setAnchorPopOver(iconRef.current)}>
+                <IconButton aria-label="Sign Out" color="primary" ref={iconRef} onClick={() => setAnchorPopOver(iconRef.current)}>
                     <AccountBox fontSize="large"/>
                 </IconButton>
 
@@ -105,7 +105,7 @@ export default function NavBar() {
                 </Typography>
 
                 <Link to="/login" style={{ textDecoration: 'none' }}>
-                  <IconButton color="primary">
+                  <IconButton aria-label="Sign In" color="primary">
                     <AccountBox fontSize="large"/>
                   </IconButton>
                 </Link>

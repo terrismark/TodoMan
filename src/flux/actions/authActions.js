@@ -21,7 +21,6 @@ export const tokenConfig = (getState) => {
             "Content-type": "application/json"
         }
     }
-
     if (token) {
         config.headers['todoman-auth-token'] = token
     }
@@ -32,7 +31,8 @@ export const tokenConfig = (getState) => {
 export const loadUser = () => (dispatch, getState) => {
     dispatch({ type: USER_LOADING })
 
-    axios.get(API_URL + '/api/users', tokenConfig(getState))
+    if (tokenConfig(getState).headers['todoman-auth-token']) {
+        axios.get(API_URL + '/api/users', tokenConfig(getState))
         .then(res => dispatch({
             type: USER_LOADED,
             payload: res.data
@@ -43,6 +43,11 @@ export const loadUser = () => (dispatch, getState) => {
                 type: AUTH_ERROR
             })
         })
+    } else {
+        dispatch({
+            type: AUTH_ERROR
+        })
+    }
 }
 
 const config = {

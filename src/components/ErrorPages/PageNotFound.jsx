@@ -56,6 +56,7 @@ export default function PageNotFound() {
                                 size="large"
                                 color="primary" 
                                 variant="outlined"
+                                aria-label="Home"
                                 onClick={() => history.push("/")}
                             >
                                 return home

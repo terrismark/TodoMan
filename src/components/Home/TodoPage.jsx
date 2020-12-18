@@ -24,7 +24,6 @@ import { addTodo } from '../../flux/actions/todosActions';
 import NavBar from './NavBar'
 import Todos from '../Todos/Todos';
 
-
 const darkTheme = createMuiTheme({
   palette: {
     type: 'dark',
@@ -135,6 +134,7 @@ export default function TodoPage({ todos, listId, name }) {
                                             <Button 
                                                 type="submit" 
                                                 size="large" 
+                                                aria-label="Add todo"
                                                 color="primary" 
                                                 disabled={newItemToAdd.length === 0 || loading}>
                                                 <AddBox fontSize="large"/>

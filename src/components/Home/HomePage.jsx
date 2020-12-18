@@ -16,9 +16,13 @@ import {
 import { Battery20, Visibility, CenterFocusStrong, Flare  } from '@material-ui/icons'
 import { amber } from '@material-ui/core/colors';
 
+import { Link } from 'react-router-dom';
+
 import NavBar from './NavBar'
 import Footer from './Footer'
-import { Link } from 'react-router-dom';
+
+// const NavBar = lazy(() => import('./NavBar'));
+// const Footer = lazy(() => import('./Footer'));
 
 const darkTheme = createMuiTheme({
   palette: {
@@ -127,7 +131,7 @@ export default function HomePage() {
 
                 <Footer />
             </Container>
-                
         </ThemeProvider>
+        
     );
 }

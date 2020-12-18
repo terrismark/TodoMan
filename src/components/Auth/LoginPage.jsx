@@ -157,6 +157,7 @@ export default function LoginPage() {
 
                                 <Grid item xs={12}>
                                     <Button
+                                        aria-label="Sign In"
                                         size="large"
                                         type="submit"
                                         fullWidth
@@ -170,7 +171,12 @@ export default function LoginPage() {
                                 </Grid>
                             </Grid>
 
-                            <LinkButton href="/register" variant="body2" color="primary" className={classes.onAccountBtn}>
+                            <LinkButton 
+                                aria-label="Sign Up Link" 
+                                href="/register" 
+                                variant="body2" 
+                                color="primary" 
+                                className={classes.onAccountBtn}>
                                 Don't have an account? Sign Up
                             </LinkButton>
                         </form>

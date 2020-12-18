@@ -214,6 +214,7 @@ export default function RegisterPage() {
                                     <Button
                                         size="large"
                                         type="submit"
+                                        aria-label="Sign Up"
                                         fullWidth
                                         variant="contained"
                                         color="primary"
@@ -225,7 +226,12 @@ export default function RegisterPage() {
                                 </Grid>
                             </Grid>
 
-                            <LinkButton href="/login" variant="body2" color="primary" className={classes.noAccountBtn}>
+                            <LinkButton 
+                                href="/login" 
+                                aria-label="Sign In Link"
+                                variant="body2" 
+                                color="primary" 
+                                className={classes.noAccountBtn}>
                                 Already have an account? Sign In
                             </LinkButton>
                         </form>

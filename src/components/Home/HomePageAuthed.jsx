@@ -169,6 +169,7 @@ export default function HomePageAuthed({ lists, username }) {
                                                     type="submit" 
                                                     size="large" 
                                                     color="primary" 
+                                                    aria-label="Add list"
                                                     disabled={newItemToAdd.length === 0 || loading}>
                                                     <AddBox fontSize="large"/>
                                                 </Button>
