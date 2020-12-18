@@ -85,6 +85,7 @@ export default function TodoItem({ id, value, completed, todos, date, listId, se
                         <Checkbox
                             edge="start"
                             color="primary"
+                            aria-label="Complete todo"
                             checked={completed}
                             onChange={() => dispatch(completeTodo(id, listId))}
                             disableRipple
@@ -102,6 +103,7 @@ export default function TodoItem({ id, value, completed, todos, date, listId, se
                         <IconButton 
                             onClick={() => setEditMode(!editMode)} 
                             edge="end" 
+                            aria-label="Edit todo"
                             className={classes.secondaryButton}
                         >
                             <Edit />
@@ -113,6 +115,7 @@ export default function TodoItem({ id, value, completed, todos, date, listId, se
                                 dispatch(deleteTodo(id, listId))
                             }} 
                             edge="end" 
+                            aria-label="Delete todo"
                             color="primary"
                             >
                             <Delete />
@@ -129,6 +132,7 @@ export default function TodoItem({ id, value, completed, todos, date, listId, se
                             <Close
                                 edge="start"
                                 color="default"
+                                aria-label="Close edit mode"
                             />
                         </IconButton>
                     </ListItemIcon> 
@@ -144,10 +148,11 @@ export default function TodoItem({ id, value, completed, todos, date, listId, se
 
                         <ListItemSecondaryAction>
                             <IconButton 
-                            type="submit" 
-                            edge="end" 
-                            color="primary" 
-                            disabled={newItemToAdd.length === 0 || newItemToAdd === value}
+                                aria-label="Submit edited todo"
+                                type="submit" 
+                                edge="end" 
+                                color="primary" 
+                                disabled={newItemToAdd.length === 0 || newItemToAdd === value}
                             >
                                 <Done />
                             </IconButton>

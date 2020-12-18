@@ -45,7 +45,7 @@ export default function TodoListItem({ id, value, name, todosCount }) {
   return (
       <Fade in={show.show} {...{timeout: show.timeout}}>
           <List key={id} className={classes.root} >
-                  <ListItem button onClick={() => history.push(`/${name}`)}>
+                  <ListItem button onClick={() => history.push(`/${name}`)} aria-label="Open list">
                       <ListItemText 
                           primary={
                               <Typography style={{fontSize: "1.5rem"}}>
@@ -56,10 +56,12 @@ export default function TodoListItem({ id, value, name, todosCount }) {
                       />
 
                       <ListItemSecondaryAction edge="end">
-                          <IconButton onClick={() => {
-                            setShow({ timeout: 300, show: false })
-                            dispatch(deleteList(id))
-                          }}
+                          <IconButton 
+                            aria-label="Delete list"
+                            onClick={() => {
+                              setShow({ timeout: 300, show: false })
+                              dispatch(deleteList(id))
+                            }}
                           >
                               <Delete />
                           </IconButton>
