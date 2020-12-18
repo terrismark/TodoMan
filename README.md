@@ -1,4 +1,4 @@
-# TodoMan
+# [TodoMan](https://todo-man.netlify.app/)
 
 A simple todo app with auth logic
 
